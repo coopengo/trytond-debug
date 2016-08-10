@@ -1,0 +1,835 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:debug.model,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model,fields_:"
+msgid "Fields"
+msgstr "Champs"
+
+msgctxt "field:debug.model,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model,initial_frame:"
+msgid "Initial Frame"
+msgstr "Définition initiale"
+
+msgctxt "field:debug.model,initial_module:"
+msgid "Declared in"
+msgstr "Déclaré dans"
+
+msgctxt "field:debug.model,methods:"
+msgid "Methods"
+msgstr "Méthodes"
+
+msgctxt "field:debug.model,mro:"
+msgid "MRO"
+msgstr "Héritage"
+
+msgctxt "field:debug.model,name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model,string:"
+msgid "String"
+msgstr "Nom long"
+
+msgctxt "field:debug.model,views:"
+msgid "Views"
+msgstr "Vues"
+
+msgctxt "field:debug.model,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.field,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.field,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.field,default_method:"
+msgid "Default Method"
+msgstr "Méthode par défaut"
+
+msgctxt "field:debug.model.field,domain:"
+msgid "Domain"
+msgstr "Domaine"
+
+msgctxt "field:debug.model.field,function:"
+msgid "Function"
+msgstr "Fonction"
+
+msgctxt "field:debug.model.field,getter:"
+msgid "Getter"
+msgstr "Getter"
+
+msgctxt "field:debug.model.field,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.field,invisible:"
+msgid "Invisible"
+msgstr "Invisible"
+
+msgctxt "field:debug.model.field,kind:"
+msgid "Kind"
+msgstr "Type"
+
+msgctxt "field:debug.model.field,model:"
+msgid "model"
+msgstr "Modèle"
+
+msgctxt "field:debug.model.field,name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.field,on_change_fields:"
+msgid "On Change Fields"
+msgstr "Champs du on_change"
+
+msgctxt "field:debug.model.field,on_change_method:"
+msgid "On Change Method"
+msgstr "Méthode on_change"
+
+msgctxt "field:debug.model.field,on_change_with_fields:"
+msgid "On Change With Fields"
+msgstr "Champs du on_change_with"
+
+msgctxt "field:debug.model.field,on_change_with_method:"
+msgid "On Change With Method"
+msgstr "Méthode on_change_with"
+
+msgctxt "field:debug.model.field,order_method:"
+msgid "Order Method"
+msgstr "Méthode d'ordre"
+
+msgctxt "field:debug.model.field,readonly:"
+msgid "Readonly"
+msgstr "Lecture seule"
+
+msgctxt "field:debug.model.field,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.field,required:"
+msgid "Required"
+msgstr "Requis"
+
+msgctxt "field:debug.model.field,searcher:"
+msgid "Searcher"
+msgstr "Searcher"
+
+msgctxt "field:debug.model.field,selection_method:"
+msgid "Selection Method"
+msgstr "Méthode de sélection"
+
+msgctxt "field:debug.model.field,selection_values:"
+msgid "Selection Values"
+msgstr "Valeurs de sélection"
+
+msgctxt "field:debug.model.field,setter:"
+msgid "Setter"
+msgstr "Setter"
+
+msgctxt "field:debug.model.field,string:"
+msgid "String"
+msgstr "Nom long"
+
+msgctxt "field:debug.model.field,target_model:"
+msgid "Target Model"
+msgstr "Modèle cible"
+
+msgctxt "field:debug.model.field,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.field,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.field.on_change,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.field.on_change,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.field.on_change,from_field:"
+msgid "From Field"
+msgstr "De"
+
+msgctxt "field:debug.model.field.on_change,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.field.on_change,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.field.on_change,to_field:"
+msgid "From Field"
+msgstr "Vers"
+
+msgctxt "field:debug.model.field.on_change,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.field.on_change,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.field.on_change_with,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.field.on_change_with,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.field.on_change_with,from_field:"
+msgid "From Field"
+msgstr "De"
+
+msgctxt "field:debug.model.field.on_change_with,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.field.on_change_with,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.field.on_change_with,to_field:"
+msgid "From Field"
+msgstr "Vers"
+
+msgctxt "field:debug.model.field.on_change_with,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.field.on_change_with,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.method,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.method,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.method,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.method,initial_frame:"
+msgid "Initial Frame"
+msgstr "Définition initiale"
+
+msgctxt "field:debug.model.method,model:"
+msgid "name"
+msgstr "nom"
+
+msgctxt "field:debug.model.method,mro:"
+msgid "MRO"
+msgstr "Héritage"
+
+msgctxt "field:debug.model.method,name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.method,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.method,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.method,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.method.mro,base_name:"
+msgid "Base Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.method.mro,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.method.mro,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.method.mro,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.method.mro,kind:"
+msgid "Kind"
+msgstr "Type"
+
+msgctxt "field:debug.model.method.mro,method:"
+msgid "method"
+msgstr "Méthode"
+
+msgctxt "field:debug.model.method.mro,module:"
+msgid "Module"
+msgstr "Module"
+
+msgctxt "field:debug.model.method.mro,order:"
+msgid "Order"
+msgstr "Ordre"
+
+msgctxt "field:debug.model.method.mro,path:"
+msgid "Path"
+msgstr "Chemin"
+
+msgctxt "field:debug.model.method.mro,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.method.mro,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.method.mro,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.mro,base_name:"
+msgid "Base Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.mro,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.mro,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.mro,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.mro,kind:"
+msgid "Kind"
+msgstr "Type"
+
+msgctxt "field:debug.model.mro,model:"
+msgid "model"
+msgstr "Modèle"
+
+msgctxt "field:debug.model.mro,module:"
+msgid "Module"
+msgstr "Module"
+
+msgctxt "field:debug.model.mro,order:"
+msgid "Order"
+msgstr "Ordre"
+
+msgctxt "field:debug.model.mro,path:"
+msgid "Path"
+msgstr "Chemin"
+
+msgctxt "field:debug.model.mro,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.mro,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.mro,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.model.view,create_date:"
+msgid "Create Date"
+msgstr "Date de création"
+
+msgctxt "field:debug.model.view,create_uid:"
+msgid "Create User"
+msgstr "Créé par"
+
+msgctxt "field:debug.model.view,field_childs:"
+msgid "Fields Childs"
+msgstr "Enfant"
+
+msgctxt "field:debug.model.view,functional_id:"
+msgid "Functional Id"
+msgstr "Id fonctionnel"
+
+msgctxt "field:debug.model.view,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.model.view,inherit:"
+msgid "Inherit"
+msgstr "Sous-vues"
+
+msgctxt "field:debug.model.view,kind:"
+msgid "Kind"
+msgstr "Type"
+
+msgctxt "field:debug.model.view,model:"
+msgid "model"
+msgstr "Modèle"
+
+msgctxt "field:debug.model.view,module:"
+msgid "Module"
+msgstr "Module"
+
+msgctxt "field:debug.model.view,name:"
+msgid "File Name"
+msgstr "Nom du fichier"
+
+msgctxt "field:debug.model.view,order:"
+msgid "Order"
+msgstr "Ordre"
+
+msgctxt "field:debug.model.view,parent_view:"
+msgid "Parent View"
+msgstr "Vue parente"
+
+msgctxt "field:debug.model.view,priority:"
+msgid "Priority"
+msgstr "Priorité"
+
+msgctxt "field:debug.model.view,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:debug.model.view,write_date:"
+msgid "Write Date"
+msgstr "Date de mise à jour"
+
+msgctxt "field:debug.model.view,write_uid:"
+msgid "Write User"
+msgstr "Mis à jour par"
+
+msgctxt "field:debug.visualize,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:debug.visualize,pyson:"
+msgid "Pyson to Transform"
+msgstr "Pyson à mettre à transformer"
+
+msgctxt "field:debug.visualize,result:"
+msgid "Result"
+msgstr "Résultat"
+
+msgctxt "field:debug.visualize,synch_model_data:"
+msgid "Synchronise Model Data"
+msgstr "Synchroniser les Model Data"
+
+msgctxt "field:ir.model.debug.model_info,evaluation_result:"
+msgid "Evaluation Result"
+msgstr "Résultat"
+
+msgctxt "field:ir.model.debug.model_info,field_infos:"
+msgid "Fields Infos"
+msgstr "Infos sur le champ"
+
+msgctxt "field:ir.model.debug.model_info,filter_value:"
+msgid "Filter Value"
+msgstr "Filtrer par"
+
+msgctxt "field:ir.model.debug.model_info,hide_functions:"
+msgid "Hide Functions"
+msgstr "Cacher les champs fonction"
+
+msgctxt "field:ir.model.debug.model_info,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:ir.model.debug.model_info,id_to_calculate:"
+msgid "Id To Calculate"
+msgstr "Id à calculer"
+
+msgctxt "field:ir.model.debug.model_info,model_name:"
+msgid "Model Name"
+msgstr "Nom du modèle"
+
+msgctxt "field:ir.model.debug.model_info,must_raise_exception:"
+msgid "Must Raise Exception"
+msgstr "Doit lever une erreur"
+
+msgctxt "field:ir.model.debug.model_info,previous_runs:"
+msgid "Previous runs"
+msgstr "Exécutions précédentes"
+
+msgctxt "field:ir.model.debug.model_info,to_evaluate:"
+msgid "To Evaluate"
+msgstr "A évaluer"
+
+msgctxt "field:ir.model.debug.model_info.field_info,calculated_value:"
+msgid "Calculated Value"
+msgstr "Valeur calculée"
+
+msgctxt "field:ir.model.debug.model_info.field_info,field_domain:"
+msgid "Domain"
+msgstr "Domaine"
+
+msgctxt "field:ir.model.debug.model_info.field_info,has_domain:"
+msgid "Has domain"
+msgstr "A un domaine"
+
+msgctxt "field:ir.model.debug.model_info.field_info,id:"
+msgid "ID"
+msgstr "Id"
+
+msgctxt "field:ir.model.debug.model_info.field_info,id_to_calculate:"
+msgid "Id To Calculate"
+msgstr "Id à calculer"
+
+msgctxt "field:ir.model.debug.model_info.field_info,is_function:"
+msgid "Is Function"
+msgstr "Est un champ fonction"
+
+msgctxt "field:ir.model.debug.model_info.field_info,is_invisible:"
+msgid "Is invisible"
+msgstr "Est invisible"
+
+msgctxt "field:ir.model.debug.model_info.field_info,is_readonly:"
+msgid "Is readonly"
+msgstr "Est readonly"
+
+msgctxt "field:ir.model.debug.model_info.field_info,is_required:"
+msgid "Is required"
+msgstr "Est requis"
+
+msgctxt "field:ir.model.debug.model_info.field_info,kind:"
+msgid "Field type"
+msgstr "Type de champ"
+
+msgctxt "field:ir.model.debug.model_info.field_info,name:"
+msgid "Field name"
+msgstr "Nom du champ"
+
+msgctxt "field:ir.model.debug.model_info.field_info,state_invisible:"
+msgid "State Invisible"
+msgstr "Invisible"
+
+msgctxt "field:ir.model.debug.model_info.field_info,state_readonly:"
+msgid "State Readonly"
+msgstr "Readonly"
+
+msgctxt "field:ir.model.debug.model_info.field_info,state_required:"
+msgid "State Required"
+msgstr "Requis"
+
+msgctxt "field:ir.model.debug.model_info.field_info,string:"
+msgid "String"
+msgstr "Nom long"
+
+msgctxt "field:ir.model.debug.model_info.field_info,target_model:"
+msgid "Target Model"
+msgstr "Modèle cible"
+
+msgctxt "help:ir.model.debug.model_info,to_evaluate:"
+msgid "Use the 'instance' keyword to get the instanciated model"
+msgstr "Utillisez le mot-clé \"instance\" pour accéder à la donnée"
+
+msgctxt "model:debug.model,name:"
+msgid "Model for debug"
+msgstr "Modèle"
+
+msgctxt "model:debug.model.field,name:"
+msgid "Model field for debug"
+msgstr "Champ"
+
+msgctxt "model:debug.model.field.on_change,name:"
+msgid "On Change Relation for debug"
+msgstr "Relation entre champs pour on_change"
+
+msgctxt "model:debug.model.field.on_change_with,name:"
+msgid "On Change With Relation for debug"
+msgstr "Relation entre champs pour on_change_with"
+
+msgctxt "model:debug.model.method,name:"
+msgid "Model method for debug"
+msgstr "Méthode"
+
+msgctxt "model:debug.model.method.mro,name:"
+msgid "Method MRO for debug"
+msgstr "Héritage de méthode"
+
+msgctxt "model:debug.model.mro,name:"
+msgid "Model MRO for debug"
+msgstr "Héritage"
+
+msgctxt "model:debug.model.view,name:"
+msgid "Model view for debug"
+msgstr "Vue"
+
+msgctxt "model:debug.visualize,name:"
+msgid "Debug Visualize"
+msgstr "Résultat d'exécution"
+
+msgctxt "model:ir.action,name:act_debug"
+msgid "Debug"
+msgstr "Debug"
+
+msgctxt "model:ir.action,name:act_debug_model"
+msgid "Debug Model"
+msgstr "Modèles"
+
+msgctxt "model:ir.action,name:act_debug_model_field"
+msgid "Fields"
+msgstr "Champs"
+
+msgctxt "model:ir.action,name:act_debug_model_method"
+msgid "Methods"
+msgstr "Méthodes"
+
+msgctxt "model:ir.action,name:act_debug_model_view"
+msgid "Views"
+msgstr "Vues"
+
+msgctxt "model:ir.action,name:act_model_debug"
+msgid "Debug Model"
+msgstr "Modèles"
+
+msgctxt "model:ir.action,name:act_open_initial"
+msgid "Open Initial Frame"
+msgstr "Ouvrir la définition"
+
+msgctxt "model:ir.action,name:act_open_model_method_mro"
+msgid "Open MRO"
+msgstr "Ouvrir le MRO"
+
+msgctxt "model:ir.action,name:act_open_model_mro"
+msgid "Open MRO"
+msgstr "Ouvrir le MRO"
+
+msgctxt "model:ir.action,name:act_refresh"
+msgid "Refresh Debug Data"
+msgstr "Rafraîchir les informations de debug"
+
+msgctxt "model:ir.model.debug.model_info,name:"
+msgid "Model Name"
+msgstr "Nom du modèle"
+
+msgctxt "model:ir.model.debug.model_info.field_info,name:"
+msgid "Field Info"
+msgstr "Infos sur le champ"
+
+msgctxt "model:ir.ui.menu,name:menu_debug"
+msgid "Debug"
+msgstr "Debug"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_data"
+msgid "Debug Data"
+msgstr "Données de debug"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_model"
+msgid "Debug Model"
+msgstr "Modèles"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_model_field"
+msgid "Fields"
+msgstr "Champs"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_model_method"
+msgid "Methods"
+msgstr "Méthodes"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_model_view"
+msgid "Views"
+msgstr "Vues"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_refresh"
+msgid "Refresh Debug Data"
+msgstr "Rafraîchir les informations de debug"
+
+msgctxt "model:ir.ui.menu,name:menu_debug_wizard"
+msgid "Debug"
+msgstr "Debug"
+
+msgctxt "model:ir.ui.menu,name:menu_model_debug"
+msgid "Debug Instance"
+msgstr "Déboguer une instance"
+
+msgctxt "selection:debug.model.method.mro,kind:"
+msgid ""
+msgstr " "
+
+msgctxt "selection:debug.model.method.mro,kind:"
+msgid "Initial"
+msgstr "Initial"
+
+msgctxt "selection:debug.model.method.mro,kind:"
+msgid "Override"
+msgstr "Surcharge"
+
+msgctxt "selection:debug.model.mro,kind:"
+msgid ""
+msgstr " "
+
+msgctxt "selection:debug.model.mro,kind:"
+msgid "Initial"
+msgstr "Initial"
+
+msgctxt "selection:debug.model.mro,kind:"
+msgid "Override"
+msgstr "Surcharge"
+
+msgctxt "selection:debug.model.view,kind:"
+msgid "Board"
+msgstr "Board"
+
+msgctxt "selection:debug.model.view,kind:"
+msgid "Form"
+msgstr "Form"
+
+msgctxt "selection:debug.model.view,kind:"
+msgid "Graph"
+msgstr "Graph"
+
+msgctxt "selection:debug.model.view,kind:"
+msgid "Inherit"
+msgstr "Héritage"
+
+msgctxt "selection:debug.model.view,kind:"
+msgid "Tree"
+msgstr "Tree"
+
+msgctxt "selection:ir.model.debug.model_info,filter_value:"
+msgid "Kind"
+msgstr "Type"
+
+msgctxt "selection:ir.model.debug.model_info,filter_value:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "selection:ir.model.debug.model_info,filter_value:"
+msgid "String"
+msgstr "Nom long"
+
+msgctxt "view:debug.model.field:"
+msgid "Field"
+msgstr "Champ"
+
+msgctxt "view:debug.model.field:"
+msgid "Fields"
+msgstr "Champs"
+
+msgctxt "view:debug.model.field:"
+msgid "States"
+msgstr "États"
+
+msgctxt "view:debug.model.method.mro:"
+msgid "MRO"
+msgstr "Héritage"
+
+msgctxt "view:debug.model.method.mro:"
+msgid "MROs"
+msgstr "Héritages"
+
+msgctxt "view:debug.model.method.mro:"
+msgid "Open"
+msgstr "Ouvrir"
+
+msgctxt "view:debug.model.method:"
+msgid "Method"
+msgstr "Méthode"
+
+msgctxt "view:debug.model.method:"
+msgid "Methods"
+msgstr "Méthodes"
+
+msgctxt "view:debug.model.method:"
+msgid "Open Definition"
+msgstr "Ouvrir la définition"
+
+msgctxt "view:debug.model.mro:"
+msgid "MRO"
+msgstr "Héritage"
+
+msgctxt "view:debug.model.mro:"
+msgid "MROs"
+msgstr "Héritages"
+
+msgctxt "view:debug.model.mro:"
+msgid "Open"
+msgstr "Ouvrir"
+
+msgctxt "view:debug.model.view:"
+msgid "Open"
+msgstr "Ouvrir"
+
+msgctxt "view:debug.model.view:"
+msgid "View"
+msgstr "Vue"
+
+msgctxt "view:debug.model.view:"
+msgid "Views"
+msgstr "Vues"
+
+msgctxt "view:debug.model:"
+msgid "Main Page"
+msgstr "Données principales"
+
+msgctxt "view:debug.model:"
+msgid "Model"
+msgstr "Modèle"
+
+msgctxt "view:debug.model:"
+msgid "Models"
+msgstr "Modèles"
+
+msgctxt "view:debug.model:"
+msgid "Open Definition"
+msgstr "Ouvrir la définition"
+
+msgctxt "view:debug.visualize:"
+msgid "Debug Result"
+msgstr "Exécuter du code"
+
+msgctxt "view:ir.model.debug.model_info.field_info:"
+msgid "Field Info"
+msgstr "Infos sur le champ"
+
+msgctxt "view:ir.model.debug.model_info.field_info:"
+msgid "Fields"
+msgstr "Champs"
+
+msgctxt "view:ir.model.debug.model_info:"
+msgid "Model Debug"
+msgstr "Modèle"
+
+msgctxt "wizard_button:debug,display,end:"
+msgid "Quit"
+msgstr "Quitter"
+
+msgctxt "wizard_button:debug,display,run:"
+msgid "Re-Run"
+msgstr "Ré-exécuter"
+
+msgctxt "wizard_button:ir.model.debug,model_info,end:"
+msgid "Quit"
+msgstr "Quitter"

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<form string="View">
+    <label name="name"/>
+    <field name="name"/>
+    <label name="parent_view"/>
+    <field name="parent_view"/>
+    <newline/>
+    <label name="module"/>
+    <field name="module"/>
+    <label name="functional_id"/>
+    <field name="functional_id"/>
+    <label name="kind"/>
+    <field name="kind"/>
+    <label name="priority"/>
+    <field name="priority"/>
+    <label name="field_childs"/>
+    <field name="field_childs"/>
+    <newline/>
+    <separator name="inherit" colspan="4"/>
+    <field name="inherit" colspan="4"/>
+</form>

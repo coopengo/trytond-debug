@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tree string="Models">
+    <field name="name"/>
+    <field name="string"/>
+    <field name="initial_module"/>
+    <button string="Open Definition" name="open_initial"/>
+</tree>

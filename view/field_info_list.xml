@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tree string="Fields">
+    <field name="name"/>
+    <field name="string"/>
+    <field name="kind"/>
+    <field name="target_model"/>
+    <field name="is_function"/>
+    <field name="is_required"/>
+    <field name="is_readonly"/>
+    <field name="is_invisible"/>
+    <field name="has_domain"/>
+    <field name="calculated_value" expand="1"/>
+</tree>

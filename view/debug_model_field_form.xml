@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<form string="Field">
+    <label name="name"/>
+    <field name="name"/>
+    <label name="module"/>
+    <field name="module"/>
+    <label name="string"/>
+    <field name="string"/>
+    <label name="kind"/>
+    <field name="kind"/>
+    <label name="function"/>
+    <field name="function"/>
+    <newline/>
+    <label name="getter"/>
+    <field name="getter"/>
+    <label name="setter"/>
+    <field name="setter"/>
+    <label name="searcher"/>
+    <field name="searcher"/>
+    <newline/>
+    <label name="target_model"/>
+    <field name="target_model"/>
+    <label name="selection_method"/>
+    <field name="selection_method"/>
+    <separator name="selection_values" colspan="4"/>
+    <field name="selection_values" colspan="4"/>
+    <newline/>
+    <label name="default_method"/>
+    <field name="default_method"/>
+    <label name="order_method"/>
+    <field name="order_method"/>
+    <newline/>
+    <label name="on_change_method"/>
+    <field name="on_change_method"/>
+    <label name="on_change_with_method"/>
+    <field name="on_change_with_method"/>
+    <field name="on_change_fields" colspan="2"/>
+    <field name="on_change_with_fields" colspan="2"/>
+    <newline/>
+    <group id="states" string="States" colspan="4" yexpand="1" yfill="1">
+        <separator name="domain"/>
+        <separator name="invisible"/>
+        <separator name="readonly"/>
+        <separator name="required"/>
+        <field name="domain"/>
+        <field name="invisible"/>
+        <field name="readonly"/>
+        <field name="required"/>
+    </group>
+</form>

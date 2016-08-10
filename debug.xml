@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data>
+        <menuitem parent="ir.menu_administration" name="Debug" id="menu_debug" sequence="101"/>
+        <menuitem parent="menu_debug" name="Debug Data" id="menu_debug_data" sequence="1"/>
+        <!-- ############## -->
+        <!-- # Field Info # -->
+        <!-- ############## -->
+        <record model="ir.ui.view" id="field_info_view_form">
+            <field name="model">ir.model.debug.model_info.field_info</field>
+            <field name="type">form</field>
+            <field name="name">field_info_form</field>
+        </record>
+        <record model="ir.ui.view" id="field_info_view_list">
+            <field name="model">ir.model.debug.model_info.field_info</field>
+            <field name="type">tree</field>
+            <field name="name">field_info_list</field>
+        </record>
+        <!-- ############## -->
+        <!-- # Model Info # -->
+        <!-- ############## -->
+        <record model="ir.ui.view" id="model_info_view_form">
+            <field name="model">ir.model.debug.model_info</field>
+            <field name="type">form</field>
+            <field name="name">model_info_form</field>
+        </record>
+        <!-- ############### -->
+        <!-- # Debug Model # -->
+        <!-- ############### -->
+        <record model="ir.action.wizard" id="act_model_debug">
+            <field name="name">Debug Model</field>
+            <field name="wiz_name">ir.model.debug</field>
+            <field name="window">True</field>
+        </record>
+        <record model="ir.action.keyword" id="act_model_debug_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">ir.model,-1</field>
+            <field name="action" ref="act_model_debug"/>
+        </record>
+        <!-- Entry Point -->
+        <menuitem parent="menu_debug" name="Debug Instance" id="menu_model_debug" sequence="3" action="act_model_debug"/>
+        <!-- ################### -->
+        <!-- # Visualize Debug # -->
+        <!-- ################### -->
+        <record model="ir.ui.view" id="visualize_view_form">
+            <field name="model">debug.visualize</field>
+            <field name="type">form</field>
+            <field name="name">visualize_form</field>
+        </record>
+        <!-- ######### -->
+        <!-- # Debug # -->
+        <!-- ######### -->
+        <record model="ir.action.wizard" id="act_debug">
+            <field name="name">Debug</field>
+            <field name="wiz_name">debug</field>
+            <field name="window">True</field>
+        </record>
+        <menuitem parent="menu_debug" name="Debug" id="menu_debug_wizard" sequence="2" action="act_debug"/>
+        <!-- ######################## -->
+        <!-- # Debug Model Instance # -->
+        <!-- ######################## -->
+        <record model="ir.ui.view" id="debug_model_view_form">
+            <field name="model">debug.model</field>
+            <field name="type">form</field>
+            <field name="name">debug_model_form</field>
+        </record>
+        <record model="ir.ui.view" id="debug_model_view_list">
+            <field name="model">debug.model</field>
+            <field name="type">tree</field>
+            <field name="name">debug_model_list</field>
+        </record>
+        <!-- Entry Point -->
+        <record model="ir.action.act_window" id="act_debug_model">
+            <field name="name">Debug Model</field>
+            <field name="res_model">debug.model</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_view_list"/>
+            <field name="act_window" ref="act_debug_model"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_view2">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_view_form"/>
+            <field name="act_window" ref="act_debug_model"/>
+        </record>
+        <menuitem parent="menu_debug_data" sequence="1" action="act_debug_model" id="menu_debug_model"/>
+        <!-- Access Rights -->
+        <record model="ir.model.access" id="access_debug_model">
+            <field name="model" search="[('model', '=', 'debug.model')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- ############################## -->
+        <!-- # Debug Model Field Instance # -->
+        <!-- ############################## -->
+        <record model="ir.ui.view" id="debug_model_field_view_form">
+            <field name="model">debug.model.field</field>
+            <field name="type">form</field>
+            <field name="name">debug_model_field_form</field>
+        </record>
+        <record model="ir.ui.view" id="debug_model_field_view_list">
+            <field name="model">debug.model.field</field>
+            <field name="type">tree</field>
+            <field name="name">debug_model_field_list</field>
+        </record>
+        <!-- Entry Point -->
+        <record model="ir.action.act_window" id="act_debug_model_field">
+            <field name="name">Fields</field>
+            <field name="res_model">debug.model.field</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_field_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_field_view_list"/>
+            <field name="act_window" ref="act_debug_model_field"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_field_view2">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_field_view_form"/>
+            <field name="act_window" ref="act_debug_model_field"/>
+        </record>
+        <menuitem parent="menu_debug_data" sequence="2" action="act_debug_model_field" id="menu_debug_model_field"/>
+        <!-- Access Rights -->
+        <record model="ir.model.access" id="access_debug_model_field">
+            <field name="model" search="[('model', '=', 'debug.model.field')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- ############################## -->
+        <!-- # Debug Model Method Instance # -->
+        <!-- ############################## -->
+        <record model="ir.ui.view" id="debug_model_method_view_form">
+            <field name="model">debug.model.method</field>
+            <field name="type">form</field>
+            <field name="name">debug_model_method_form</field>
+        </record>
+        <record model="ir.ui.view" id="debug_model_method_view_list">
+            <field name="model">debug.model.method</field>
+            <field name="type">tree</field>
+            <field name="name">debug_model_method_list</field>
+        </record>
+        <!-- Entry Point -->
+        <record model="ir.action.act_window" id="act_debug_model_method">
+            <field name="name">Methods</field>
+            <field name="res_model">debug.model.method</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_method_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_method_view_list"/>
+            <field name="act_window" ref="act_debug_model_method"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_method_view2">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_method_view_form"/>
+            <field name="act_window" ref="act_debug_model_method"/>
+        </record>
+        <menuitem parent="menu_debug_data" sequence="3" action="act_debug_model_method" id="menu_debug_model_method"/>
+        <!-- Access Rights -->
+        <record model="ir.model.access" id="access_debug_model_method">
+            <field name="model" search="[('model', '=', 'debug.model.method')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- ############################## -->
+        <!-- # Debug Model View Instance # -->
+        <!-- ############################## -->
+        <record model="ir.ui.view" id="debug_model_view_view_form">
+            <field name="model">debug.model.view</field>
+            <field name="type">form</field>
+            <field name="name">debug_model_view_form</field>
+        </record>
+        <record model="ir.ui.view" id="debug_model_view_view_list">
+            <field name="model">debug.model.view</field>
+            <field name="type">tree</field>
+            <field name="field_childs">inherit</field>
+            <field name="name">debug_model_view_list</field>
+        </record>
+        <!-- Entry Point -->
+        <record model="ir.action.act_window" id="act_debug_model_view">
+            <field name="name">Views</field>
+            <field name="res_model">debug.model.view</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_view_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_view_view_list"/>
+            <field name="act_window" ref="act_debug_model_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_debug_model_view_view2">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_view_view_form"/>
+            <field name="act_window" ref="act_debug_model_view"/>
+        </record>
+        <menuitem parent="menu_debug_data" sequence="4" action="act_debug_model_view" id="menu_debug_model_view"/>
+        <!-- Access Rights -->
+        <record model="ir.model.access" id="access_debug_model_view">
+            <field name="model" search="[('model', '=', 'debug.model.view')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- ################### -->
+        <!-- # Debug Model MRO # -->
+        <!-- ################### -->
+        <record model="ir.ui.view" id="debug_model_mro_view_form">
+            <field name="model">debug.model.mro</field>
+            <field name="type">form</field>
+            <field name="name">debug_model_mro_form</field>
+        </record>
+        <record model="ir.ui.view" id="debug_model_mro_view_list">
+            <field name="model">debug.model.mro</field>
+            <field name="type">tree</field>
+            <field name="name">debug_model_mro_list</field>
+        </record>
+        <!-- Access Rights -->
+        <record model="ir.model.access" id="access_debug_model_mro">
+            <field name="model" search="[('model', '=', 'debug.model.mro')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- MRO Relate -->
+        <record model="ir.action.act_window" id="act_open_model_mro">
+            <field name="name">Open MRO</field>
+            <field name="res_model">debug.model.mro</field>
+            <field name="domain" eval="[('model', 'in', Eval('active_ids'))]" pyson="1"/>
+            <field name="order" eval="[('order', 'ASC')]" pyson="1"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_open_model_mro_list">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_mro_view_list"/>
+            <field name="act_window" ref="act_open_model_mro"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_open_model_mro_form">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="debug_model_mro_view_form"/>
+            <field name="act_window" ref="act_open_model_mro"/>
+        </record>
+        <record model="ir.action.keyword" id="act_open_model_mro_keyword">
+            <field name="keyword">form_relate</field>
+            <field name="model">debug.model,-1</field>
+            <field name="action" ref="act_open_model_mro"/>
+        </record>
+        <!-- ########################## -->
+        <!-- # Debug Model Method MRO # -->
+        <!-- ########################## -->
+        <record model="ir.ui.view" id="debug_model_method_mro_view_form">
+            <field name="model">debug.model.method.mro</field>
+            <field name="type">form</field>
+            <field name="name">debug_model_mro_form</field>
+        </record>
+        <record model="ir.ui.view" id="debug_model_method_mro_view_list">
+            <field name="model">debug.model.method.mro</field>
+            <field name="type">tree</field>
+            <field name="name">debug_model_mro_list</field>
+        </record>
+        <!-- Access Rights -->
+        <record model="ir.model.access" id="access_debug_model_method_mro">
+            <field name="model" search="[('model', '=', 'debug.model.method.mro')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- MRO Relate -->
+        <record model="ir.action.act_window" id="act_open_model_method_mro">
+            <field name="name">Open MRO</field>
+            <field name="res_model">debug.model.method.mro</field>
+            <field name="domain" eval="[('method', 'in', Eval('active_ids'))]" pyson="1"/>
+            <field name="order" eval="[('order', 'ASC')]" pyson="1"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_open_model_method_mro_list">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="debug_model_method_mro_view_list"/>
+            <field name="act_window" ref="act_open_model_method_mro"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_open_model_method_mro_form">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="debug_model_method_mro_view_form"/>
+            <field name="act_window" ref="act_open_model_method_mro"/>
+        </record>
+        <record model="ir.action.keyword" id="act_open_model_method_mro_keyword">
+            <field name="keyword">form_relate</field>
+            <field name="model">debug.model.method,-1</field>
+            <field name="action" ref="act_open_model_method_mro"/>
+        </record>
+        <!-- ###################### -->
+        <!-- # Refresh Debug Data # -->
+        <!-- ###################### -->
+        <record model="ir.action.wizard" id="act_refresh">
+            <field name="name">Refresh Debug Data</field>
+            <field name="wiz_name">debug.refresh</field>
+        </record>
+        <menuitem parent="menu_debug" sequence="4" action="act_refresh" id="menu_debug_refresh"/>
+        <!-- ###################### -->
+        <!-- # Open Initial Frame # -->
+        <!-- ###################### -->
+        <record model="ir.action.wizard" id="act_open_initial">
+            <field name="name">Open Initial Frame</field>
+            <field name="wiz_name">debug.open_initial</field>
+        </record>
+        <record model="ir.action.keyword" id="act_open_initial_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">debug.model,-1</field>
+            <field name="action" ref="act_open_initial"/>
+        </record>
+        <record model="ir.action.keyword" id="act_open_initial_for_method_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">debug.model.method,-1</field>
+            <field name="action" ref="act_open_initial"/>
+        </record>
+    </data>
+</tryton>

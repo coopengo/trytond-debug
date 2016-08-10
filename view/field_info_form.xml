@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<form string="Field Info" col="4">
+    <label name="name"/>
+    <field name="name"/>
+    <label name="string"/>
+    <field name="string"/>
+    <label name="is_function"/>
+    <field name="is_function"/>
+    <label name="kind"/>
+    <field name="kind"/>
+    <label name="target_model"/>
+    <field name="target_model"/>
+    <newline/>
+    <group id="required" colspan="2" col="2">
+        <label name="is_required"/>
+        <field name="is_required"/>
+        <field name="state_required" colspan="2"/>
+    </group>
+    <group id="readonly" colspan="2" col="2">
+        <label name="is_readonly"/>
+        <field name="is_readonly"/>
+        <field name="state_readonly" colspan="2"/>
+    </group>
+    <group id="invisible" colspan="2" col="2">
+        <label name="is_invisible"/>
+        <field name="is_invisible"/>
+        <field name="state_invisible" colspan="2"/>
+    </group>
+    <group id="domain" colspan="2" col="2">
+        <label name="has_domain"/>
+        <field name="has_domain"/>
+        <field name="field_domain" colspan="2"/>
+    </group>
+</form>

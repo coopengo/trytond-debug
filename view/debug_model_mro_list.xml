@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tree string="MROs">
+    <field name="order"/>
+    <field name="kind"/>
+    <field name="module"/>
+    <field name="base_name"/>
+    <field name="path"/>
+    <button string="Open" name="open_file"/>
+</tree>

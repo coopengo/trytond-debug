@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<form string="Model">
+    <label name="name"/>
+    <field name="name"/>
+    <label name="string"/>
+    <field name="string"/>
+    <label name="initial_module"/>
+    <field name="initial_module"/>
+    <notebook colspan="4">
+        <page id="main_page" string="Main Page" col="2">
+            <field name="fields_"/>
+            <field name="mro"/>
+        </page>
+        <page name="views">
+            <field name="views"/>
+        </page>
+        <page name="methods">
+            <field name="methods"/>
+        </page>
+    </notebook>
+</form>
