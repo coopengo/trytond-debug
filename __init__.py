@@ -32,9 +32,12 @@ def register():
         OpenInitialFrame,
         module='debug', type_='wizard')
 
-    Pool.register_post_init_hooks(set_method_names_for_profiling,
-        name_one2many_gets,
-        module='debug')
+    try:
+        Pool.register_post_init_hooks(set_method_names_for_profiling,
+            name_one2many_gets,
+            module='debug')
+    except:
+        logging.getLogger().warning('Post init hooks disabled')
 
 
 def set_method_names_for_profiling(pool):
