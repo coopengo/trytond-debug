@@ -58,7 +58,11 @@ def open_path(rel_path, patterns):
                     prev_pos = new_pos
                     break
                 prev_pos = new_pos
-        nvim.command('execute "normal zO"')
+        try:
+            nvim.command('execute "normal zO"')
+        except:
+            # Vim fails if no folds were found
+            pass
     else:
         os.system(editor + ' ' + new_path + ' &')
     return
@@ -844,11 +848,11 @@ class DebugFieldInstance(ModelSQL, ModelView):
     function = fields.Boolean('Function', readonly=True)
     target_model = fields.Many2One('debug.model', 'Target Model',
         ondelete='SET NULL', states={'invisible': ~Eval('target_model')},
-        depends=['target_model'], readonly=True)
+        depends=['target_model'], readonly=True, select=True)
     selection_method = fields.Many2One('debug.model.method',
         'Selection Method', ondelete='SET NULL',
         states={'invisible': ~Eval('selection_method')},
-        depends=['selection_method'], readonly=True)
+        depends=['selection_method'], readonly=True, select=True)
     selection_values = fields.Text('Selection Values', states={'invisible':
             ~Eval('selection_values')}, depends=['selection_values'],
         readonly=True)
@@ -857,22 +861,23 @@ class DebugFieldInstance(ModelSQL, ModelView):
     readonly = fields.Text('Readonly', readonly=True)
     required = fields.Text('Required', readonly=True)
     default_method = fields.Many2One('debug.model.method', 'Default Method',
-        ondelete='SET NULL', readonly=True)
+        ondelete='SET NULL', readonly=True, select=True)
     on_change_method = fields.Many2One('debug.model.method',
-        'On Change Method', ondelete='SET NULL', readonly=True)
+        'On Change Method', ondelete='SET NULL', readonly=True, select=True)
     on_change_with_method = fields.Many2One('debug.model.method',
-        'On Change With Method', ondelete='SET NULL', readonly=True)
+        'On Change With Method', ondelete='SET NULL', readonly=True,
+        select=True)
     order_method = fields.Many2One('debug.model.method', 'Order Method',
-        ondelete='SET NULL', readonly=True)
+        ondelete='SET NULL', readonly=True, select=True)
     getter = fields.Many2One('debug.model.method', 'Getter',
         ondelete='SET NULL', states={'invisible': ~Eval('getter')},
-        depends=['getter'], readonly=True)
+        depends=['getter'], readonly=True, select=True)
     setter = fields.Many2One('debug.model.method', 'Setter',
         ondelete='SET NULL', states={'invisible': ~Eval('setter')},
-        depends=['setter'], readonly=True)
+        depends=['setter'], readonly=True, select=True)
     searcher = fields.Many2One('debug.model.method', 'Searcher',
         ondelete='SET NULL', states={'invisible': ~Eval('searcher')},
-        depends=['searcher'], readonly=True)
+        depends=['searcher'], readonly=True, select=True)
     on_change_fields = fields.Many2Many('debug.model.field.on_change',
         'from_field', 'to_field', 'On Change Fields', readonly=True)
     on_change_with_fields = fields.Many2Many(
@@ -962,7 +967,7 @@ class DebugViewInstance(ModelSQL, ModelView):
     priority = fields.Integer('Priority', readonly=True)
     order = fields.Integer('Order', readonly=True)
     field_childs = fields.Many2One('debug.model.field', 'Fields Childs',
-        ondelete='SET NULL', readonly=True)
+        ondelete='SET NULL', readonly=True, select=True)
     inherit = fields.One2Many('debug.model.view', 'parent_view', 'Inherit',
         order=[('order', 'ASC')], readonly=True)
 
