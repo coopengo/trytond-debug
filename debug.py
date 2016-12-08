@@ -63,6 +63,8 @@ def open_path(rel_path, patterns):
         except:
             # Vim fails if no folds were found
             pass
+    elif editor == 'gvim':
+        os.system(editor + ' -c edit ' + new_path + ' &')
     else:
         os.system(editor + ' ' + new_path + ' &')
     return
