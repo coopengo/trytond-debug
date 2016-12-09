@@ -48,7 +48,7 @@ executing some actions.
 
 _Note 1_ : Most **__mro__** like models have a `Open` button which will use
 `$EDITOR` to open the definition of the associated data (be it model, method or
-view). By default only the file is opened, but it is possible to customised the
+view). By default only the file is opened, but it is possible to customize the
 behaviour to jump to the proper location if the editor allows it (done with
 **Neovim**).
 
