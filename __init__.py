@@ -5,37 +5,35 @@ import re
 import logging
 
 from trytond.pool import Pool
-from .debug import *
+import debug
 
 
 def register():
     Pool.register(
-        # From file debug
-        FieldInfo,
-        ModelInfo,
-        VisualizeDebug,
-        DebugModelInstance,
-        DebugMROInstance,
-        DebugMethodInstance,
-        DebugMethodMROInstance,
-        DebugFieldInstance,
-        DebugViewInstance,
-        DebugOnChangeRelation,
-        DebugOnChangeWithRelation,
+        debug.FieldInfo,
+        debug.ModelInfo,
+        debug.VisualizeDebug,
+        debug.DebugModelInstance,
+        debug.DebugMROInstance,
+        debug.DebugMethodInstance,
+        debug.DebugMethodMROInstance,
+        debug.DebugFieldInstance,
+        debug.DebugViewInstance,
+        debug.DebugOnChangeRelation,
+        debug.DebugOnChangeWithRelation,
         module='debug', type_='model')
 
     Pool.register(
-        # From file debug
-        DebugModel,
-        Debug,
-        RefreshDebugData,
-        OpenInitialFrame,
+        debug.DebugModel,
+        debug.Debug,
+        debug.RefreshDebugData,
+        debug.OpenInitialFrame,
         module='debug', type_='wizard')
 
     try:
-        Pool.register_post_init_hooks(set_method_names_for_profiling,
-            name_one2many_gets,
-            module='debug')
+        Pool.register_post_init_hooks(
+            set_method_names_for_profiling,
+            name_one2many_gets, module='debug')
     except:
         logging.getLogger().warning('Post init hooks disabled')
 
@@ -90,24 +88,25 @@ setattr(klass, method_name, %s)'''
 
 def name_one2many_gets(pool):
     from trytond.config import config
-    from trytond.model import ModelSQL
-    if config.get('debug', 'fields_get') != 'True':
+
+    to_patch = (config.get('debug', 'fields_methods') or '').split(',')
+    if not to_patch:
         return
 
-    logging.getLogger().warning(
-        'Patching fields getters for profiling, not recommanded for prod!')
-    for klass in pool._pool[pool.database_name].get(
-            'model', {}).values():
-        if not issubclass(klass, ModelSQL):
-            continue
-        for fname, field in klass._fields.items():
-            if not hasattr(field, 'get'):
-                continue
-            template = '''
+    for meth_name in to_patch:
+        logging.getLogger().warning(
+            'Patching fields \'%s\' method for profiling, not recommanded '
+            'for prod!' % meth_name)
+        for klass in pool._pool[pool.database_name].get(
+                'model', {}).values():
+            for fname, field in klass._fields.items():
+                if not hasattr(field, meth_name):
+                    continue
+                template = '''
 def %s(*args, **kwargs):
-    return field.__class__.get(field, *args, **kwargs)
-setattr(field, 'get', %s)'''
-            patched_name = '__field_getter__' + re.sub(
-                r'[^A-Za-z0-9]+', '_', klass.__name__) + '__' + fname
-            exec template % (patched_name, patched_name) in \
-                {'field': field}, {}
+    return field.__class__.%s(field, *args, **kwargs)
+object.__setattr__(field, '%s', %s)'''
+                patched_name = ('__field_%s__' % meth_name) + re.sub(
+                    r'[^A-Za-z0-9]+', '_', klass.__name__) + '__' + fname
+                exec template % (patched_name, meth_name, meth_name,
+                    patched_name) in {'field': field}, {}
