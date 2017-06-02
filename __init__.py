@@ -145,7 +145,7 @@ def activate_auto_profile(pool, update):
     logger = logging.getLogger('trytond.autoprofile')
     try:
         from profilehooks import profile
-        threshold = config.getfloat('debug', 'auto_profile_threshold')
+        threshold = config.getfloat('debug', 'auto_profile_threshold') or 0
 
         def auto_profile(f):
             @classmethod
