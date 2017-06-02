@@ -111,6 +111,47 @@ the filesystem and the database
 
 ![Pyson Transform](img/debug_pyson_transform.png)
 
+### Better names for profiling
+
+If the [post init hook patch](https://github.com/coopengo/trytond/commit/e68b71f)
+is installed on trytond, the module will patch model / field methods at runtime
+to help with traceback / profiling interpretation.
+
+A typical configuration will be :
+
+```conf
+[debug]
+methods=read,_validate,search,create,delete
+fields_methods=get,set
+```
+
+This will dynamically modify the pool classes to rename methods according to
+their related models / fields.
+
+For instance, instead of a profiler output like :
+
+```
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     10   5.000    0.500    4.000    0.400 function.py:XXX(get)
+     10   5.000    0.500    1.000    0.100 modelsql.py:XXX(create)
+```
+
+You may have something like :
+
+```
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     10   5.000    0.500    4.000    0.400 function.py:XXX(get)
+     10   5.000    0.500    1.000    0.100 modelsql.py:XXX(create)
+      2   4.000    2.000    3.000    1.500 <string>:1(create__account_move)
+      4   4.000    1.000    0.500    0.125 <string>:1(__field_get_account_move__rec_name)
+      8   1.000    0.125    1.000    0.125 <string>:1(create__account_move_line)
+      6   1.000    0.133    0.500    0.088 <string>:1(__field_get_account_move_line__amount)
+```
+
+This should only be used for debugging complex tracebacks or for profiling,
+since it slows down the application a little, and relies on unsafe code
+injection at runtime.
+
 ### Installation
 
 See **INSTALL**
