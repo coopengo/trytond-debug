@@ -163,12 +163,6 @@ def activate_auto_profile(pool, update):
                 return res
             return wrapped
 
-        def profile_it(method):
-            @profile(immediate=True, sort=['cumulative'])
-            def patched(*args, **kwargs):
-                return method(*args, **kwargs)
-            return patched
-
         for model, methods in config.items('auto_profile'):
             logger.warning('Enabling auto-profile for %s' % model)
 
