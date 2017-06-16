@@ -152,6 +152,27 @@ This should only be used for debugging complex tracebacks or for profiling,
 since it slows down the application a little, and relies on unsafe code
 injection at runtime.
 
+### Auto profiling
+
+If the [post init hook patch](https://github.com/coopengo/trytond/commit/e68b71f)
+is installed on trytond, the module will automatically enable dynamic profiling
+of configured method at runtime. It is possible to configure the minimum
+duration of calls to profile.
+
+It also requires that [profilehooks](https://pypi.python.org/pypi/profilehooks)
+be available.
+
+A typical configuration will be :
+
+```conf
+[debug]
+auto_profile_threshold=0.2
+
+[auto_profile]
+account.invoice=post
+account.payment=process,create
+```
+
 ### Installation
 
 See **INSTALL**

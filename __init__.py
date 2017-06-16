@@ -1,6 +1,9 @@
 # This file is part of Coog. The COPYRIGHT file at the top level of
 # this repository contains the full copyright notices and license terms.
+import sys
+import time
 from collections import defaultdict
+from cStringIO import StringIO
 
 import types
 import inspect
@@ -37,7 +40,9 @@ def register():
         Pool.register_post_init_hooks(
             tryton_syntax_analysis,
             set_method_names_for_profiling,
-            name_one2many_gets, module='debug')
+            name_one2many_gets,
+            activate_auto_profile,
+            module='debug')
     except:
         logging.getLogger().warning('Post init hooks disabled')
 
@@ -131,8 +136,52 @@ object.__setattr__(field, '%s', %s)'''
                     patched_name) in {'field': field}, {}
 
 
+def activate_auto_profile(pool, update):
+    if update:
+        return
+
+    from ConfigParser import NoSectionError
+    from trytond.config import config
+    logger = logging.getLogger('trytond.autoprofile')
+    try:
+        from profilehooks import profile
+        threshold = config.getfloat('debug', 'auto_profile_threshold') or 0
+
+        def auto_profile(f):
+            @classmethod
+            def wrapped(cls, *args, **kwargs):
+                old_stdout = sys.stdout
+                my_stdout = sys.stdout = StringIO()
+                start = time.time()
+                res = profile(f, immediate=True, sort=['cumulative'])(
+                    *args, **kwargs)
+                end = time.time()
+                sys.stdout = old_stdout
+                if end - start >= threshold:
+                    for line in my_stdout.getvalue().split('\n'):
+                        logger.info(line)
+                return res
+            return wrapped
+
+        for model, methods in config.items('auto_profile'):
+            logger.warning('Enabling auto-profile for %s' % model)
+
+            Model = pool._pool[pool.database_name].get('model').get(model)
+            for method in methods.split(','):
+                setattr(Model, method, auto_profile(getattr(Model, method)))
+    except ImportError:
+        logger.warning('profilehooks not found, auto-profiling disabled')
+    except NoSectionError:
+        pass
+
+
 def tryton_syntax_analysis(pool, update):
     if update:
+        return
+
+    from trytond.config import config
+    disabled = config.getboolean('debug', 'disable_syntax_analysis')
+    if disabled:
         return
 
     logging.getLogger('modules').info('Running trytond syntax analysis')
