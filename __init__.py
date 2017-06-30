@@ -148,6 +148,21 @@ def activate_auto_profile(pool, update):
         threshold = config.getfloat('debug', 'auto_profile_threshold') or 0
 
         def auto_profile(f):
+            def wrapped(self, *args, **kwargs):
+                old_stdout = sys.stdout
+                my_stdout = sys.stdout = StringIO()
+                start = time.time()
+                res = profile(f, immediate=True, sort=['cumulative'])(
+                    self, *args, **kwargs)
+                end = time.time()
+                sys.stdout = old_stdout
+                if end - start >= threshold:
+                    for line in my_stdout.getvalue().split('\n'):
+                        logger.info(line)
+                return res
+            return wrapped
+
+        def auto_profile_cls(f):
             @classmethod
             def wrapped(cls, *args, **kwargs):
                 old_stdout = sys.stdout
@@ -168,7 +183,11 @@ def activate_auto_profile(pool, update):
 
             Model = pool._pool[pool.database_name].get('model').get(model)
             for method in methods.split(','):
-                setattr(Model, method, auto_profile(getattr(Model, method)))
+                method_obj = getattr(Model, method)
+                if not hasattr(method_obj, 'im_self') or method_obj.im_self:
+                    setattr(Model, method, auto_profile_cls(method_obj))
+                else:
+                    setattr(Model, method, auto_profile(method_obj))
     except ImportError:
         logger.warning('profilehooks not found, auto-profiling disabled')
     except NoSectionError:
