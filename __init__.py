@@ -112,6 +112,7 @@ def name_one2many_gets(pool, update):
         return
 
     from trytond.config import config
+    from trytond.model import fields as tryton_fields
 
     to_patch = (config.get('debug', 'fields_methods') or '').split(',')
     if not to_patch:
@@ -125,6 +126,10 @@ def name_one2many_gets(pool, update):
                 'model', {}).values():
             for fname, field in klass._fields.items():
                 if not hasattr(field, meth_name):
+                    continue
+                if (isinstance(field, tryton_fields.TimeDelta) and
+                        meth_name == 'get'):
+                    # Weird case we need to bypass
                     continue
                 template = '''
 def %s(*args, **kwargs):
