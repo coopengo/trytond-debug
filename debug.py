@@ -964,7 +964,8 @@ class DebugViewInstance(ModelSQL, ModelView):
     functional_id = fields.Char('Functional Id', readonly=True)
     module = fields.Char('Module', readonly=True)
     kind = fields.Selection([('form', 'Form'), ('tree', 'Tree'),
-            ('board', 'Board'), ('inherit', 'Inherit'), ('graph', 'Graph')],
+            ('board', 'Board'), ('inherit', 'Inherit'), ('graph', 'Graph'),
+            ('calendar', 'Calendar')],
         'Kind', readonly=True)
     priority = fields.Integer('Priority', readonly=True)
     order = fields.Integer('Order', readonly=True)
