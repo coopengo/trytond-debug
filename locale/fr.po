@@ -39,7 +39,7 @@ msgid "Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model,string:"
@@ -98,6 +98,10 @@ msgctxt "field:debug.model.field,model:"
 msgid "model"
 msgstr "Modèle"
 
+msgctxt "field:debug.model.field,module:"
+msgid "Module"
+msgstr "Module"
+
 msgctxt "field:debug.model.field,name:"
 msgid "Name"
 msgstr "Nom"
@@ -127,7 +131,7 @@ msgid "Readonly"
 msgstr "Lecture seule"
 
 msgctxt "field:debug.model.field,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.field,required:"
@@ -183,7 +187,7 @@ msgid "ID"
 msgstr "Id"
 
 msgctxt "field:debug.model.field.on_change,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.field.on_change,to_field:"
@@ -215,7 +219,7 @@ msgid "ID"
 msgstr "Id"
 
 msgctxt "field:debug.model.field.on_change_with,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.field.on_change_with,to_field:"
@@ -259,7 +263,7 @@ msgid "Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.method,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.method,write_date:"
@@ -307,7 +311,7 @@ msgid "Path"
 msgstr "Chemin"
 
 msgctxt "field:debug.model.method.mro,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.method.mro,write_date:"
@@ -355,7 +359,7 @@ msgid "Path"
 msgstr "Chemin"
 
 msgctxt "field:debug.model.mro,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.mro,write_date:"
@@ -419,7 +423,7 @@ msgid "Priority"
 msgstr "Priorité"
 
 msgctxt "field:debug.model.view,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nom"
 
 msgctxt "field:debug.model.view,write_date:"
@@ -703,6 +707,10 @@ msgid "Board"
 msgstr "Board"
 
 msgctxt "selection:debug.model.view,kind:"
+msgid "Calendar"
+msgstr "Calendrier"
+
+msgctxt "selection:debug.model.view,kind:"
 msgid "Form"
 msgstr "Form"
 
@@ -731,76 +739,28 @@ msgid "String"
 msgstr "Nom long"
 
 msgctxt "view:debug.model.field:"
-msgid "Field"
-msgstr "Champ"
-
-msgctxt "view:debug.model.field:"
-msgid "Fields"
-msgstr "Champs"
-
-msgctxt "view:debug.model.field:"
 msgid "States"
 msgstr "États"
 
 msgctxt "view:debug.model.method.mro:"
-msgid "MRO"
-msgstr "Héritage"
-
-msgctxt "view:debug.model.method.mro:"
-msgid "MROs"
-msgstr "Héritages"
-
-msgctxt "view:debug.model.method.mro:"
 msgid "Open"
 msgstr "Ouvrir"
-
-msgctxt "view:debug.model.method:"
-msgid "Method"
-msgstr "Méthode"
-
-msgctxt "view:debug.model.method:"
-msgid "Methods"
-msgstr "Méthodes"
 
 msgctxt "view:debug.model.method:"
 msgid "Open Definition"
 msgstr "Ouvrir la définition"
 
 msgctxt "view:debug.model.mro:"
-msgid "MRO"
-msgstr "Héritage"
-
-msgctxt "view:debug.model.mro:"
-msgid "MROs"
-msgstr "Héritages"
-
-msgctxt "view:debug.model.mro:"
 msgid "Open"
 msgstr "Ouvrir"
 
 msgctxt "view:debug.model.view:"
 msgid "Open"
 msgstr "Ouvrir"
-
-msgctxt "view:debug.model.view:"
-msgid "View"
-msgstr "Vue"
-
-msgctxt "view:debug.model.view:"
-msgid "Views"
-msgstr "Vues"
 
 msgctxt "view:debug.model:"
 msgid "Main Page"
 msgstr "Données principales"
-
-msgctxt "view:debug.model:"
-msgid "Model"
-msgstr "Modèle"
-
-msgctxt "view:debug.model:"
-msgid "Models"
-msgstr "Modèles"
 
 msgctxt "view:debug.model:"
 msgid "Open Definition"
