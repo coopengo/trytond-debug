@@ -8,14 +8,15 @@ this repository contains the full copyright notices and license terms. -->
     <field name="filter_value"/>
     <label name="hide_functions"/>
     <field name="hide_functions"/>
-    <field name="field_infos" colspan="6" readonly="1"/>
+    <field name="field_infos" colspan="4" readonly="1"/>
     <label name="id_to_calculate"/>
     <field name="id_to_calculate"/>
     <label name="must_raise_exception"/>
     <field name="must_raise_exception"/>
     <newline/>
     <label name="to_evaluate"/>
-    <field name="to_evaluate" colspan="5"/>
-    <field name="evaluation_result" colspan="3"/>
-    <field name="previous_runs" colspan="3"/>
+    <field name="to_evaluate" colspan="2"/>
+    <button name="follow_link" string="Follow"/>
+    <field name="evaluation_result" colspan="2"/>
+    <field name="previous_runs" colspan="2"/>
 </form>
