@@ -819,6 +819,10 @@ msgid "Fields"
 msgstr "Champs"
 
 msgctxt "view:ir.model.debug.model_info:"
+msgid "Follow"
+msgstr "Suivre"
+
+msgctxt "view:ir.model.debug.model_info:"
 msgid "Model Debug"
 msgstr "Modèle"
 
