@@ -127,6 +127,9 @@ class ModelInfo(ModelView):
                 'raw_module_infos': RPC(),
                 'raw_field_infos': RPC(),
                 })
+        cls._buttons.update({
+                'follow_link': {},
+                })
 
     @classmethod
     def get_possible_model_names(cls):
@@ -188,6 +191,11 @@ class ModelInfo(ModelView):
         self.evaluation_result = ''
         self.recalculate_field_infos()
 
+    @fields.depends('model_name', 'hide_functions', 'filter_value',
+        'field_infos', 'id_to_calculate')
+    def on_change_id_to_calculate(self):
+        self.on_change_hide_functions()
+
     @fields.depends('model_name', 'id_to_calculate', 'to_evaluate',
         'must_raise_exception', 'previous_runs')
     def on_change_to_evaluate(self):
@@ -199,23 +207,41 @@ class ModelInfo(ModelView):
             self.previous_runs = ''
             return
         if self.previous_runs:
-            previous_runs = self.previous_runs[1:].split(
-                '\n\n' + '#' * 20 + '\n\n')
+            previous_runs = self.previous_runs[1:].split('\n\n')
         else:
             previous_runs = ['']
         if previous_runs[0] != self.to_evaluate:
-            self.previous_runs = '\n' + ('\n\n' + '#' * 20 + '\n\n').join(
-                [self.to_evaluate] + [x for x in previous_runs if x])
+            self.previous_runs = '\n\n'.join(
+                ['# %s (%i)\n%s' % (self.model_name, self.id_to_calculate,
+                        self.to_evaluate)] + [x for x in previous_runs if x])
         try:
-            context = {
-                'instance': Pool().get(self.model_name)(self.id_to_calculate),
-                }
-            self.evaluation_result = pprint.pformat(
-                eval(self.to_evaluate, context))
+            self.evaluation_result = pprint.pformat(self.evaluate())
         except Exception, exc:
             if self.must_raise_exception:
                 raise
             self.evaluation_result = 'ERROR: %s' % str(exc)
+
+    def evaluate(self):
+        context = {
+            'instance': Pool().get(self.model_name)(self.id_to_calculate),
+            }
+        return eval(self.to_evaluate, context)
+
+    @ModelView.button_change('model_name', 'id_to_calculate', 'to_evaluate',
+        'must_raise_exception', 'previous_runs', 'hide_functions',
+        'filter_value', 'field_infos')
+    def follow_link(self):
+        try:
+            target = self.evaluate()
+            if not isinstance(target, ModelSQL):
+                return
+        except:
+            return
+        self.id_to_calculate = target.id
+        self.model_name = target.__name__
+        self.evaluation_result = ''
+        self.to_evaluate = ''
+        self.recalculate_field_infos()
 
     def recalculate_field_infos(self):
         self.field_infos = []
@@ -485,6 +511,29 @@ class ModelInfo(ModelView):
                 'childs': [x.name for x in module.childs],
                 }
         return infos
+
+    @fields.depends('id_to_calculate', 'model_name', 'to_evaluate')
+    def autocomplete_to_evaluate(self):
+        if not self.id_to_calculate or not self.to_evaluate.strip():
+            return [self.to_evaluate]
+        base = self.to_evaluate.lstrip()
+        if ' ' in base:
+            return [self.to_evaluate]
+        try:
+            base = base.split('.')
+            target = base[-1]
+            base = base[:-1]
+            if not base or base[0] != 'instance':
+                return [self.to_evaluate]
+            instance = Pool().get(self.model_name)(self.id_to_calculate)
+            value = eval('.'.join(base), {}, {'instance': instance})
+            if not isinstance(value, (ModelSQL, ModelView)):
+                return [self.to_evaluate]
+            return sorted(['.'.join(base + [k])
+                    for k in value.__class__._fields.keys()
+                    if k.startswith(target)] + [self.to_evaluate])
+        except Exception:
+            return [self.to_evaluate]
 
 
 class DebugModel(Wizard):
