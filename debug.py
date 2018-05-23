@@ -7,6 +7,7 @@ import pprint
 import logging
 
 from trytond.wizard import Wizard, StateTransition, StateView, Button
+from trytond.config import config
 from trytond.rpc import RPC
 from trytond.model import ModelSQL, ModelView, fields
 from trytond.transaction import Transaction
@@ -612,6 +613,7 @@ class DebugModelInstance(ModelSQL, ModelView):
     'Model for debug'
 
     __name__ = 'debug.model'
+    _history = True
 
     name = fields.Char('Name', select=True, readonly=True)
     string = fields.Char('String', readonly=True)
@@ -637,6 +639,21 @@ class DebugModelInstance(ModelSQL, ModelView):
         cls.__rpc__.update({'refresh': RPC(readonly=False)})
         cls._buttons.update({'open_initial': {}})
 
+    @classmethod
+    def __register__(cls, module):
+        cls._history = False
+        super(DebugModelInstance, cls).__register__(module)
+        cls._history = True
+
+    @classmethod
+    def _update_history_table(cls):
+        update = config.get('debug', 'auto_refresh_debug_data')
+        if update:
+            logging.getLogger().warning('Auto refreshing debug data, '
+                'this may take some time. Clear "auto_refresh_debug_data" '
+                'in configuration file to avoid')
+            cls.refresh()
+
     def get_initial_frame(self, name):
         return [x.id for x in self.mro if x.kind == 'initial'][0]
 
@@ -649,7 +666,8 @@ class DebugModelInstance(ModelSQL, ModelView):
         pass
 
     @classmethod
-    def refresh(cls, name, models=None):
+    def refresh(cls, name=None, models=None):
+        cls._history = False
         Model = Pool().get('debug.model')
 
         # Fetch current data
@@ -1013,7 +1031,8 @@ class DebugViewInstance(ModelSQL, ModelView):
     functional_id = fields.Char('Functional Id', readonly=True)
     module = fields.Char('Module', readonly=True)
     kind = fields.Selection([('form', 'Form'), ('tree', 'Tree'),
-            ('board', 'Board'), ('inherit', 'Inherit'), ('graph', 'Graph')],
+            ('board', 'Board'), ('inherit', 'Inherit'), ('graph', 'Graph'),
+            ('calendar', 'Calendar')],
         'Kind', readonly=True)
     priority = fields.Integer('Priority', readonly=True)
     order = fields.Integer('Order', readonly=True)
