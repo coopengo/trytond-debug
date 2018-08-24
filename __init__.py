@@ -43,7 +43,7 @@ def register():
             name_one2many_gets,
             activate_auto_profile,
             module='debug')
-    except:
+    except AttributeError:
         logging.getLogger().warning('Post init hooks disabled')
 
 
@@ -83,8 +83,9 @@ def %s(*args, **kwargs):
 setattr(klass, method_name, %s)'''
         patched_name = method_name + '__' + re.sub(
             r'[^A-Za-z0-9]+', '_', klass.__name__)
-        exec template % (patched_name, method_name, patched_name) in \
-            {'klass': klass, 'method_name': method_name}, {}
+        exec(
+            template % (patched_name, method_name, patched_name),
+            {'klass': klass, 'method_name': method_name}, {})
 
     meth_names = config.get('debug', 'methods')
     if not meth_names:
@@ -137,8 +138,10 @@ def %s(*args, **kwargs):
 object.__setattr__(field, '%s', %s)'''
                 patched_name = ('__field_%s__' % meth_name) + re.sub(
                     r'[^A-Za-z0-9]+', '_', klass.__name__) + '__' + fname
-                exec template % (patched_name, meth_name, meth_name,
-                    patched_name) in {'field': field}, {}
+                exec(
+                    template % (
+                        patched_name, meth_name, meth_name, patched_name),
+                    {'field': field}, {})
 
 
 def activate_auto_profile(pool, update):
@@ -234,7 +237,7 @@ def detect_api_changes(pool):
     def m_name(mro):
         try:
             return str(mro).split('.')[2]
-        except:
+        except IndexError:
             return str(mro)
 
     for klass in pool._pool[pool.database_name].get('model', {}).values():
@@ -244,44 +247,63 @@ def detect_api_changes(pool):
             if not callable(getattr(klass, mname)):
                 continue
             for mro in full_mro:
-                if 'trytond.pool' in str(mro):
-                    continue
                 cur_func = getattr(mro, mname, None)
                 if not cur_func:
                     continue
                 try:
                     raw = inspect.getargspec(cur_func)
-                except:
+                except TypeError:
                     # Functions which are actually partials are not
                     # inspectable
-                    continue
-                meths_data[mname].append((mro, raw))
+                    raw = None
+                else:
+                    raw = tuple(raw) + (is_static(mro, mname),)
+                try:
+                    cur_func = getattr(super(mro, klass), mname, None)
+                    super_raw = inspect.getargspec(cur_func)
+                except TypeError:
+                    # Functions which are actually partials are not
+                    # inspectable
+                    super_raw = None
+                else:
+                    super_raw = tuple(super_raw) + (
+                        is_static(super(mro, klass), mname),)
+                meths_data[mname].append((mro, raw, super_raw))
         for mname, data in meths_data.iteritems():
             if len(data) <= 1:
                 continue
             p_args, p_star_args, p_kwargs, p_def = None, None, None, None
-            p_module, p_static = None, None
-            for module, arg_data in data:
-                if module.__name__ != klass.__name__:
+            p_static = None
+            must_break = False
+            for module, arg_data, super_data in reversed(data):
+                if p_args is None and module.__name__ == klass.__name__:
+                    if arg_data is None:
+                        continue
+                    p_args, p_star_args, p_kwargs, p_def, p_static = arg_data
+                if not super_data:
+                    if not must_break:
+                        continue
+                    if module.__name__ == klass.__name__:
+                        break
+                    must_break = False
                     continue
-                if p_module is None:
-                    p_args, p_star_args, p_kwargs, p_def = arg_data
-                    p_module, p_static = module, is_static(module, mname)
-                    continue
-                args, star_args, kwargs, defaults = arg_data
-                static = is_static(module, mname)
+                args, star_args, kwargs, defaults, static = super_data
                 if (len(p_args) + bool(p_static) == 1 and p_star_args and
                         p_kwargs):
                     continue
-                real_args = len(args) - len(defaults or []) + bool(static)
-                p_real_args = len(p_args) - len(p_def or []) + bool(p_static)
+                diff = bool(static) - bool(p_static)
+                real_args = len(args) - len(defaults or []) + diff
+                p_real_args = len(p_args) - len(p_def or [])
                 if p_real_args != real_args and not star_args:
-                    break
+                    must_break = True
             else:
-                continue
-            logging.getLogger().warning('Incompatible method '
+                if not must_break:
+                    continue
+            logging.getLogger().warning(
+                'Incompatible method '
                 'description for method %s::%s' % (klass.__name__, mname))
-            logging.getLogger().warning('    %s : %s' % (m_name(p_module),
-                    str((p_args, p_star_args, p_kwargs, p_def))))
-            logging.getLogger().warning('    %s : %s' % (m_name(module),
-                    str((args, star_args, kwargs, defaults))))
+            for module, arg_data, _ in data:
+                if (arg_data is not None and module.__name__ == klass.__name__
+                        and 'trytond.pool' not in str(module)):
+                    logging.getLogger().warning('    %s : %s' % (
+                            m_name(module), str(arg_data[:-1])))
