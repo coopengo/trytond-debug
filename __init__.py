@@ -240,6 +240,40 @@ def detect_api_changes(pool):
         except IndexError:
             return str(mro)
 
+    def prototype_match(proto_1, proto_2):
+        # proto_1 should be a "subset" of proto_2
+        # "name" vs "name=None" is ok, "name=None" vs "name" is not
+        if any([ignore_proto(proto_1), ignore_proto(proto_2)]):
+            # Ignore all *args / **kwargs with no other arguments
+            return True
+        args_1, star_args_1, kwargs_1, defaults_1, static_1 = proto_1
+        args_2, star_args_2, kwargs_2, defaults_2, static_2 = proto_2
+        if bool(star_args_1) != bool(star_args_2):
+            return False
+        if bool(kwargs_1) != bool(kwargs_2):
+            return False
+        diff = bool(static_1) - bool(static_2)
+        if len(args_1) + diff != len(args_2):
+            return False
+        if len(defaults_1 or []) > len(defaults_2 or []):
+            return False
+        if diff > 0:
+            args_2 = args_2[1:]
+        elif diff < 0:
+            args_1 = args_1[1:]
+        if (args_1[-len(defaults_1 or [0]):] !=
+                args_2[-len(defaults_1 or [0]):]):
+            return False
+        return True
+
+    def ignore_proto(proto):
+        if not proto:
+            return True
+        args, star_args, kwargs, defaults, static = proto
+        if len(args) + bool(static) == 1 and star_args and kwargs:
+            return True
+        return False
+
     for klass in pool._pool[pool.database_name].get('model', {}).values():
         meths_data = defaultdict(list)
         full_mro = klass.__mro__[::-1]
@@ -272,33 +306,20 @@ def detect_api_changes(pool):
         for mname, data in meths_data.iteritems():
             if len(data) <= 1:
                 continue
-            p_args, p_star_args, p_kwargs, p_def = None, None, None, None
-            p_static = None
-            must_break = False
+            p_proto, found = None, False
             for module, arg_data, super_data in reversed(data):
-                if p_args is None and module.__name__ == klass.__name__:
-                    if arg_data is None:
-                        continue
-                    p_args, p_star_args, p_kwargs, p_def, p_static = arg_data
-                if not super_data:
-                    if not must_break:
-                        continue
-                    if module.__name__ == klass.__name__:
+                if p_proto is None and not ignore_proto(arg_data):
+                    p_proto = arg_data
+                if ignore_proto(super_data):
+                    if found and module.__name__ == klass.__name__:
                         break
-                    must_break = False
                     continue
-                args, star_args, kwargs, defaults, static = super_data
-                if (len(p_args) + bool(p_static) == 1 and p_star_args and
-                        p_kwargs):
-                    continue
-                diff = bool(static) - bool(p_static)
-                real_args = len(args) - len(defaults or []) + diff
-                p_real_args = len(p_args) - len(p_def or [])
-                if p_real_args != real_args and not star_args:
-                    must_break = True
+                if not prototype_match(p_proto, super_data):
+                    found = True
+                else:
+                    p_proto = super_data
             else:
-                if not must_break:
-                    continue
+                continue
             logging.getLogger().warning(
                 'Incompatible method '
                 'description for method %s::%s' % (klass.__name__, mname))
