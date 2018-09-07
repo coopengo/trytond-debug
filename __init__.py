@@ -11,7 +11,9 @@ import re
 import logging
 
 from trytond.pool import Pool
+
 import debug
+import ir
 
 
 def register():
@@ -27,6 +29,7 @@ def register():
         debug.DebugViewInstance,
         debug.DebugOnChangeRelation,
         debug.DebugOnChangeWithRelation,
+        ir.User,
         module='debug', type_='model')
 
     Pool.register(
