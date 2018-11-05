@@ -3,7 +3,7 @@
 import sys
 import time
 from collections import defaultdict
-from cStringIO import StringIO
+from io import StringIO
 
 import types
 import inspect
@@ -12,8 +12,9 @@ import logging
 
 from trytond.pool import Pool
 
-import debug
-import ir
+from . import debug
+from . import ir
+import collections
 
 
 def register():
@@ -98,8 +99,8 @@ setattr(klass, method_name, %s)'''
         logging.getLogger().warning(
             'Patching %s for profiling, not recommanded for prod!'
             % meth_name)
-        for klass in pool._pool[pool.database_name].get(
-                'model', {}).values():
+        for klass in list(pool._pool[pool.database_name].get(
+                'model', {}).values()):
             change_method_name_for_profiling(klass, meth_name)
 
 
@@ -127,9 +128,9 @@ def name_one2many_gets(pool, update):
         logging.getLogger().warning(
             'Patching fields \'%s\' method for profiling, not recommanded '
             'for prod!' % meth_name)
-        for klass in pool._pool[pool.database_name].get(
-                'model', {}).values():
-            for fname, field in klass._fields.items():
+        for klass in list(pool._pool[pool.database_name].get(
+                'model', {}).values()):
+            for fname, field in list(klass._fields.items()):
                 if not hasattr(field, meth_name):
                     continue
                 if (isinstance(field, tryton_fields.TimeDelta) and
@@ -152,7 +153,7 @@ def activate_auto_profile(pool, update):
     if update:
         return
 
-    from ConfigParser import NoSectionError
+    from configparser import NoSectionError
     from trytond.config import config
     logger = logging.getLogger('trytond.autoprofile')
     try:
@@ -196,7 +197,7 @@ def activate_auto_profile(pool, update):
             Model = pool._pool[pool.database_name].get('model').get(model)
             for method in methods.split(','):
                 method_obj = getattr(Model, method)
-                if not hasattr(method_obj, 'im_self') or method_obj.im_self:
+                if not hasattr(method_obj, 'im_self') or method_obj.__self__:
                     setattr(Model, method, auto_profile_cls(method_obj))
                 else:
                     setattr(Model, method, auto_profile(method_obj))
@@ -278,11 +279,11 @@ def detect_api_changes(pool):
             return True
         return False
 
-    for klass in pool._pool[pool.database_name].get('model', {}).values():
+    for klass in list(pool._pool[pool.database_name].get('model', {}).values()):
         meths_data = defaultdict(list)
         full_mro = klass.__mro__[::-1]
         for mname in dir(klass):
-            if not callable(getattr(klass, mname)):
+            if not isinstance(getattr(klass, mname), collections.Callable):
                 continue
             for mro in full_mro:
                 cur_func = getattr(mro, mname, None)
@@ -307,7 +308,7 @@ def detect_api_changes(pool):
                     super_raw = tuple(super_raw) + (
                         is_static(super(mro, klass), mname),)
                 meths_data[mname].append((mro, raw, super_raw))
-        for mname, data in meths_data.iteritems():
+        for mname, data in meths_data.items():
             if len(data) <= 1:
                 continue
             p_proto, found = None, False
@@ -349,7 +350,7 @@ def enable_debug_views(pool, update):
     from trytond.model import ModelView, ModelSQL, fields
     from trytond.transaction import Transaction
 
-    previous_fields_view_get = ModelView.fields_view_get.im_func
+    previous_fields_view_get = ModelView.fields_view_get.__func__
 
     @classmethod
     def patched_fields_view_get(cls, view_id=None, view_type='form'):
