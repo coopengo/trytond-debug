@@ -135,7 +135,7 @@ class ModelInfo(ModelView):
     def get_possible_model_names(cls):
         pool = Pool()
         return list([(x, x) for x in
-                pool._pool[pool.database_name]['model'].iterkeys()])
+                pool._pool[pool.database_name]['model'].keys()])
 
     def get_field_info(self, field, field_name):
 
@@ -216,7 +216,7 @@ class ModelInfo(ModelView):
                         self.to_evaluate)] + [x for x in previous_runs if x])
         try:
             self.evaluation_result = pprint.pformat(self.evaluate())
-        except Exception, exc:
+        except Exception as exc:
             if self.must_raise_exception:
                 raise
             self.evaluation_result = 'ERROR: %s' % str(exc)
@@ -249,7 +249,7 @@ class ModelInfo(ModelView):
             return
         TargetModel = Pool().get(self.model_name)
         all_fields_infos = [self.get_field_info(field, field_name)
-                for field_name, field in TargetModel._fields.iteritems()]
+                for field_name, field in TargetModel._fields.items()]
         self.field_infos = sorted(
             [x for x in all_fields_infos if x is not None],
             key=lambda x: getattr(x, self.filter_value))
@@ -258,12 +258,12 @@ class ModelInfo(ModelView):
                 try:
                     field.calculated_value = str(getattr(
                             TargetModel(self.id_to_calculate), field.name))
-                except Exception, exc:
+                except Exception as exc:
                     field.calculated_value = 'ERROR: %s' % str(exc)
 
     @classmethod
     def raw_field_info(cls, base_model, field_name):
-        if isinstance(base_model, basestring):
+        if isinstance(base_model, str):
             base_model = Pool().get(base_model)
         field = base_model._fields[field_name]
         result = {
@@ -289,7 +289,7 @@ class ModelInfo(ModelView):
             else:
                 result['target_model'] = field.relation_name
         if isinstance(field, fields.Selection):
-            if isinstance(field.selection, basestring):
+            if isinstance(field.selection, str):
                 result['selection_method'] = field.selection
             else:
                 result['selection_values'] = dict([x
@@ -378,7 +378,7 @@ class ModelInfo(ModelView):
                     full_name[:-model_name_dots])
                 first_occurence = True
             result['% 3d' % (len(result) + 1)] = new_line
-            for mname, mvalues in methods.iteritems():
+            for mname, mvalues in methods.items():
                 cur_func = getattr(line, mname, None)
                 if not cur_func:
                     continue
@@ -400,7 +400,7 @@ class ModelInfo(ModelView):
                         continue
                     mvalues['parameters'] = mname + inspect.formatargspec(*raw)
         to_pop = []
-        for mname, mvalues in methods.iteritems():
+        for mname, mvalues in methods.items():
             if not mvalues['mro']:
                 to_pop.append(mname)
                 continue
@@ -419,7 +419,7 @@ class ModelInfo(ModelView):
         views = {x.id: x for x in View.search([('model', '=', model_name)])}
         master_views = {}
         other_masters = defaultdict(list)
-        for view in views.itervalues():
+        for view in views.values():
             if not view.inherit:
                 master_views[view.id] = {
                     'module': view.module or '',
@@ -434,7 +434,7 @@ class ModelInfo(ModelView):
             else:
                 other_masters[view.inherit.id].append(view)
 
-        for view_id, children in other_masters.iteritems():
+        for view_id, children in other_masters.items():
             if view_id not in views:
                 continue
             if view_id not in master_views:
@@ -465,10 +465,10 @@ class ModelInfo(ModelView):
             return model_class._modules_list.index(x['module'])
 
         master_views = {'% 3i' % idx: val
-            for idx, val in enumerate(sorted(master_views.values(),
-                key=view_sort))}
+            for idx, val in enumerate(
+                sorted(master_views.values(), key=view_sort))}
 
-        for view in master_views.itervalues():
+        for view in master_views.values():
             if len(view['inherit']) == 0:
                 del view['inherit']
                 continue
@@ -681,19 +681,19 @@ class DebugModelInstance(ModelSQL, ModelView):
         existing_models = {x.name: x for x in cls.search([])}
 
         # Import Models, MRO, Methods
-        for model_name, data in base_data.iteritems():
+        for model_name, data in base_data.items():
             logger.debug('Importing model %s' % model_name)
             cls.import_model(model_name, data)
         Model.save([x['__instance'] for x in base_data.values()])
 
         # Import Fields
-        for model_name, data in base_data.iteritems():
+        for model_name, data in base_data.items():
             logger.debug('Importing fields for model %s' % model_name)
             cls.import_fields(model_name, data, base_data, existing_models)
         Model.save([x['__instance'] for x in base_data.values()])
 
         # Import Views
-        for model_name, data in base_data.iteritems():
+        for model_name, data in base_data.items():
             logger.debug('Importing views for model %s' % model_name)
             cls.import_views(model_name, data, base_data)
         Model.save([x['__instance'] for x in base_data.values()])
