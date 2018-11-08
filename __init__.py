@@ -14,7 +14,6 @@ from trytond.pool import Pool
 
 from . import debug
 from . import ir
-import collections
 
 
 def register():
@@ -99,8 +98,7 @@ setattr(klass, method_name, %s)'''
         logging.getLogger().warning(
             'Patching %s for profiling, not recommanded for prod!'
             % meth_name)
-        for klass in list(pool._pool[pool.database_name].get(
-                'model', {}).values()):
+        for klass in pool._pool[pool.database_name].get('model', {}).values():
             change_method_name_for_profiling(klass, meth_name)
 
 
@@ -128,8 +126,7 @@ def name_one2many_gets(pool, update):
         logging.getLogger().warning(
             'Patching fields \'%s\' method for profiling, not recommanded '
             'for prod!' % meth_name)
-        for klass in list(pool._pool[pool.database_name].get(
-                'model', {}).values()):
+        for klass in pool._pool[pool.database_name].get('model', {}).values():
             for fname, field in list(klass._fields.items()):
                 if not hasattr(field, meth_name):
                     continue
@@ -279,11 +276,11 @@ def detect_api_changes(pool):
             return True
         return False
 
-    for klass in list(pool._pool[pool.database_name].get('model', {}).values()):
+    for klass in pool._pool[pool.database_name].get('model', {}).values():
         meths_data = defaultdict(list)
         full_mro = klass.__mro__[::-1]
         for mname in dir(klass):
-            if not isinstance(getattr(klass, mname), collections.Callable):
+            if not callable(getattr(klass, mname)):
                 continue
             for mro in full_mro:
                 cur_func = getattr(mro, mname, None)

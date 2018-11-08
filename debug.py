@@ -13,7 +13,6 @@ from trytond.model import ModelSQL, ModelView, fields
 from trytond.transaction import Transaction
 from trytond.pool import Pool
 from trytond.pyson import Eval, Bool
-import collections
 
 logger = logging.getLogger(__name__)
 METHOD_TEMPLATES = ['default_', 'on_change_with_', 'on_change_', 'order_']
@@ -339,7 +338,7 @@ class ModelInfo(ModelView):
             if elem.startswith('__') and elem not in ('__register__',
                     '__setup__'):
                 continue
-            if not isinstance(getattr(model_class, elem), collections.Callable):
+            if not callable(getattr(model_class, elem)):
                 continue
             for ftemplate in METHOD_TEMPLATES:
                 if elem.startswith(ftemplate):
@@ -466,8 +465,8 @@ class ModelInfo(ModelView):
             return model_class._modules_list.index(x['module'])
 
         master_views = {'% 3i' % idx: val
-            for idx, val in enumerate(sorted(list(master_views.values()),
-                key=view_sort))}
+            for idx, val in enumerate(
+                sorted(master_views.values(), key=view_sort))}
 
         for view in master_views.values():
             if len(view['inherit']) == 0:
@@ -531,7 +530,7 @@ class ModelInfo(ModelView):
             if not isinstance(value, (ModelSQL, ModelView)):
                 return [self.to_evaluate]
             return sorted(['.'.join(base + [k])
-                    for k in list(value.__class__._fields.keys())
+                    for k in value.__class__._fields.keys()
                     if k.startswith(target)] + [self.to_evaluate])
         except Exception:
             return [self.to_evaluate]
@@ -676,7 +675,7 @@ class DebugModelInstance(ModelSQL, ModelView):
             models)
 
         # Delete all existing instances
-        cls.delete(cls.search([('name', 'in', list(base_data.keys()))]))
+        cls.delete(cls.search([('name', 'in', base_data.keys())]))
 
         # Existing models
         existing_models = {x.name: x for x in cls.search([])}
@@ -685,23 +684,23 @@ class DebugModelInstance(ModelSQL, ModelView):
         for model_name, data in base_data.items():
             logger.debug('Importing model %s' % model_name)
             cls.import_model(model_name, data)
-        Model.save([x['__instance'] for x in list(base_data.values())])
+        Model.save([x['__instance'] for x in base_data.values()])
 
         # Import Fields
         for model_name, data in base_data.items():
             logger.debug('Importing fields for model %s' % model_name)
             cls.import_fields(model_name, data, base_data, existing_models)
-        Model.save([x['__instance'] for x in list(base_data.values())])
+        Model.save([x['__instance'] for x in base_data.values()])
 
         # Import Views
         for model_name, data in base_data.items():
             logger.debug('Importing views for model %s' % model_name)
             cls.import_views(model_name, data, base_data)
-        Model.save([x['__instance'] for x in list(base_data.values())])
+        Model.save([x['__instance'] for x in base_data.values()])
 
         # Finalize fields
         cls.finalize_fields(base_data)
-        Model.save([x['__instance'] for x in list(base_data.values())])
+        Model.save([x['__instance'] for x in base_data.values()])
 
     @classmethod
     def import_model(cls, model_name, data):
@@ -715,7 +714,7 @@ class DebugModelInstance(ModelSQL, ModelView):
         new_model.string = data['string']
 
         mro_lines = []
-        for order, mro_data in list(data['mro'].items()):
+        for order, mro_data in data['mro'].items():
             mro = MRO()
             mro.order = int(order.replace(' ', ''))
             mro.base_name = mro_data['base_name']
@@ -731,12 +730,12 @@ class DebugModelInstance(ModelSQL, ModelView):
         new_model.mro = mro_lines
 
         methods = []
-        for method_name, method_data in list(data['methods'].items()):
+        for method_name, method_data in data['methods'].items():
             method = Method()
             method.name = method_name
 
             mro_lines = []
-            for order, mro_data in list(method_data['mro'].items()):
+            for order, mro_data in method_data['mro'].items():
                 mro = MethodMRO()
                 mro.order = int(order.replace(' ', ''))
                 mro.base_name = mro_data['base_name']
@@ -761,7 +760,7 @@ class DebugModelInstance(ModelSQL, ModelView):
 
         Field = Pool().get('debug.model.field')
         fields = []
-        for field_name, field_data in list(data['fields'].items()):
+        for field_name, field_data in data['fields'].items():
             field = Field()
             field.name = field_name
             field.module = field_data['module']
@@ -794,7 +793,7 @@ class DebugModelInstance(ModelSQL, ModelView):
             if field_data.get('selection_values', None):
                 field.selection_values = '\n'.join(
                     ['%s :%s' % (k, v)
-                        for k, v in list(field_data['selection_values'].items())])
+                        for k, v in field_data['selection_values'].items()])
             field.domain = field_data.get('domain', '')
             field.invisible = field_data.get('state_invisible', '')
             field.required = 'True' if field_data['is_required'] else \
@@ -820,14 +819,14 @@ class DebugModelInstance(ModelSQL, ModelView):
             if view_data.get('field_childs', None):
                 view.field_childs = fields[view_data['field_childs']]
             sub_views = []
-            for order, sub_view in list(view_data.get('inherit', {}).items()):
+            for order, sub_view in view_data.get('inherit', {}).items():
                 sub_views.append(import_view(sub_view))
                 sub_views[-1].order = int(order.replace(' ', ''))
             view.inherit = sub_views
             return view
 
         views = []
-        for order, view_data in list(data['views'].items()):
+        for order, view_data in data['views'].items():
             views.append(import_view(view_data))
             views[-1].order = int(order.replace(' ', ''))
         full_data[model_name]['__instance'].views = views
@@ -837,7 +836,7 @@ class DebugModelInstance(ModelSQL, ModelView):
         pool = Pool()
         Field = pool.get('debug.model.field')
 
-        for model_instance in [x['__instance'] for x in list(full_data.values())]:
+        for model_instance in [x['__instance'] for x in full_data.values()]:
             Model = pool.get(model_instance.name)
             cur_data = full_data[model_instance.name]
             fields = {x.name: Field(x.id)
