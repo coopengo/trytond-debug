@@ -287,22 +287,22 @@ def detect_api_changes(pool):
                 if not cur_func:
                     continue
                 try:
-                    raw = inspect.getargspec(cur_func)
+                    raw = inspect.getfullargspec(cur_func)
                 except TypeError:
                     # Functions which are actually partials are not
                     # inspectable
                     raw = None
                 else:
-                    raw = tuple(raw) + (is_static(mro, mname),)
+                    raw = tuple(raw)[:4] + (is_static(mro, mname),)
                 try:
                     cur_func = getattr(super(mro, klass), mname, None)
-                    super_raw = inspect.getargspec(cur_func)
+                    super_raw = inspect.getfullargspec(cur_func)
                 except TypeError:
                     # Functions which are actually partials are not
                     # inspectable
                     super_raw = None
                 else:
-                    super_raw = tuple(super_raw) + (
+                    super_raw = tuple(super_raw)[:4] + (
                         is_static(super(mro, klass), mname),)
                 meths_data[mname].append((mro, raw, super_raw))
         for mname, data in meths_data.items():
