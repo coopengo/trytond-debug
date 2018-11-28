@@ -13,5 +13,5 @@ class User(metaclass=PoolMeta):
     @classmethod
     def check_password(cls, password, hash_):
         if config.getboolean('debug', 'ignore_passwords', default=False):
-            return True
+            return True, None
         return super(User, cls).check_password(password, hash_)
