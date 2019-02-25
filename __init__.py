@@ -355,6 +355,10 @@ def enable_debug_views(pool, update):
             return previous_fields_view_get(cls, view_id, view_type)
         if not issubclass(cls, ModelSQL):
             return previous_fields_view_get(cls, view_id, view_type)
+
+        # Specific feature in tryton fork
+        expand_toolbar = bool(
+            Pool().get('ir.module').search([('name', '=', 'coog_core')]))
         result = {
             'model': cls.__name__,
             'type': view_type,
@@ -382,7 +386,13 @@ def enable_debug_views(pool, update):
                         continue
                 if res[fname]['type'] in (
                         'one2many', 'many2many', 'text', 'dict'):
-                    xml += '<field name="%s" colspan="2"/>' % fname
+                    xml += '<separator name="%s" colspan="2"/>' % fname
+                    xml += '<field name="%s" colspan="2"' % fname
+                    if expand_toolbar:
+                        # expand_toolbar is available
+                        xml += ' height="200" expand_toolbar="0"/>'
+                    else:
+                        xml += ' height="200"/>'
                 else:
                     xml += '<label name="%s"/><field name="%s"/>' % (
                         fname, fname)
