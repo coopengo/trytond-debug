@@ -152,18 +152,25 @@ def activate_auto_profile(pool, update):
 
     from configparser import NoSectionError
     from trytond.config import config
+    from trytond.pool import PoolMeta
+
     logger = logging.getLogger('trytond.autoprofile')
     try:
         from profilehooks import profile
         threshold = config.getfloat('debug', 'auto_profile_threshold') or 0
+
+        def is_class_or_dual_method(method):
+            return hasattr(method, '_dualmethod') or (
+                isinstance(method, types.MethodType) and
+                isinstance(method.__self__, PoolMeta))
 
         def auto_profile(f):
             def wrapped(self, *args, **kwargs):
                 old_stdout = sys.stdout
                 my_stdout = sys.stdout = StringIO()
                 start = time.time()
-                res = profile(f, immediate=True, sort=['cumulative'])(
-                    self, *args, **kwargs)
+                res = profile(f, immediate=True, sort=['cumulative'],
+                    entries=80)(self, *args, **kwargs)
                 end = time.time()
                 sys.stdout = old_stdout
                 if end - start >= threshold:
@@ -178,7 +185,8 @@ def activate_auto_profile(pool, update):
                 old_stdout = sys.stdout
                 my_stdout = sys.stdout = StringIO()
                 start = time.time()
-                res = profile(f, immediate=True, sort=['cumulative'])(
+                res = profile(f, immediate=True, sort=['cumulative'],
+                    entries=80)(
                     *args, **kwargs)
                 end = time.time()
                 sys.stdout = old_stdout
@@ -194,7 +202,7 @@ def activate_auto_profile(pool, update):
             Model = pool._pool[pool.database_name].get('model').get(model)
             for method in methods.split(','):
                 method_obj = getattr(Model, method)
-                if not hasattr(method_obj, 'im_self') or method_obj.__self__:
+                if is_class_or_dual_method(method_obj):
                     setattr(Model, method, auto_profile_cls(method_obj))
                 else:
                     setattr(Model, method, auto_profile(method_obj))
