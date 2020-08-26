@@ -268,7 +268,7 @@ class ModelInfo(ModelView):
         field = base_model._fields[field_name]
         result = {
             'name': field_name,
-            'string': field.string,
+            'string': str(field.string),
             }
         result['is_function'] = False
         if isinstance(field, fields.Function):
