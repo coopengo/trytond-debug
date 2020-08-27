@@ -358,11 +358,12 @@ def enable_debug_views(pool, update):
     previous_fields_view_get = ModelView.fields_view_get.__func__
 
     @classmethod
-    def patched_fields_view_get(cls, view_id=None, view_type='form'):
+    def patched_fields_view_get(cls, view_id=None, view_type='form',
+            level=None):
         if not Transaction().context.get('developper_view'):
-            return previous_fields_view_get(cls, view_id, view_type)
+            return previous_fields_view_get(cls, view_id, view_type, level)
         if not issubclass(cls, ModelSQL):
-            return previous_fields_view_get(cls, view_id, view_type)
+            return previous_fields_view_get(cls, view_id, view_type, level)
 
         # Specific feature in tryton fork
         expand_toolbar = bool(
