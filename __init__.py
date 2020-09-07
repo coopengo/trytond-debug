@@ -158,6 +158,11 @@ def activate_auto_profile(pool, update):
     try:
         from profilehooks import profile
         threshold = config.getfloat('debug', 'auto_profile_threshold') or 0
+        order = config.get('debug', 'auto_profile_order') or 'cumulative'
+        entries = config.getint('debug', 'auto_profile_entries') or 80
+        filename = config.get('debug', 'auto_profile_filename') or None
+        dirs = config.getboolean('debug', 'auto_profile_show_dirs') or False
+
 
         def is_class_or_dual_method(method):
             return hasattr(method, '_dualmethod') or (
@@ -169,8 +174,9 @@ def activate_auto_profile(pool, update):
                 old_stdout = sys.stdout
                 my_stdout = sys.stdout = StringIO()
                 start = time.time()
-                res = profile(f, immediate=True, sort=['cumulative'],
-                    entries=80)(self, *args, **kwargs)
+                res = profile(f, immediate=True, sort=list(order.split(',')),
+                    entries=entries, filename=filename, dirs=dirs)(
+                    self, *args, **kwargs)
                 end = time.time()
                 sys.stdout = old_stdout
                 if end - start >= threshold:
@@ -185,8 +191,8 @@ def activate_auto_profile(pool, update):
                 old_stdout = sys.stdout
                 my_stdout = sys.stdout = StringIO()
                 start = time.time()
-                res = profile(f, immediate=True, sort=['cumulative'],
-                    entries=80)(
+                res = profile(f, immediate=True, sort=list(order.split(',')),
+                    entries=entries, filename=filename, dirs=dirs)(
                     *args, **kwargs)
                 end = time.time()
                 sys.stdout = old_stdout
