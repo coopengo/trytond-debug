@@ -323,6 +323,10 @@ this repository contains the full copyright notices and license terms. -->
             <field name="name">follow_link</field>
             <field name="model" search="[('model', '=', 'ir.model.debug.model_info')]"/>
         </record>
+        <record model="ir.model.button" id="button_refresh">
+            <field name="name">refresh</field>
+            <field name="model" search="[('model', '=', 'ir.model.debug.model_info')]"/>
+        </record>
         <record model="ir.model.button" id="button_open_initial">
             <field name="name">open_initial</field>
             <field name="model" search="[('model', '=', 'debug.model')]"/>
