@@ -16,7 +16,10 @@ this repository contains the full copyright notices and license terms. -->
     <newline/>
     <label name="to_evaluate"/>
     <field name="to_evaluate" colspan="2"/>
-    <button name="follow_link" string="Follow"/>
+    <group id="buttons">
+        <button name="refresh" string="Refresh"/>
+        <button name="follow_link" string="Follow"/>
+    </group>
     <field name="evaluation_result" colspan="2"/>
     <field name="previous_runs" colspan="2"/>
 </form>
