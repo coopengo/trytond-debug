@@ -823,6 +823,10 @@ msgid "Follow"
 msgstr "Suivre"
 
 msgctxt "view:ir.model.debug.model_info:"
+msgid "Refresh"
+msgstr "Rafraîchir"
+
+msgctxt "view:ir.model.debug.model_info:"
 msgid "Model Debug"
 msgstr "Modèle"
 

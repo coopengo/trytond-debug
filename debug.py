@@ -36,6 +36,9 @@ __all__ = [
     ]
 
 
+_FIELDS = ['model_name', 'id_to_calculate', 'to_evaluate',
+    'must_raise_exception', 'previous_runs']
+
 def open_path(rel_path, patterns):
     import trytond
     new_path = [trytond.__file__, '..', '..'] + [x for x in rel_path]
@@ -129,6 +132,7 @@ class ModelInfo(ModelView):
                 })
         cls._buttons.update({
                 'follow_link': {},
+                'refresh': {},
                 })
 
     @classmethod
@@ -196,9 +200,8 @@ class ModelInfo(ModelView):
     def on_change_id_to_calculate(self):
         self.on_change_hide_functions()
 
-    @fields.depends('model_name', 'id_to_calculate', 'to_evaluate',
-        'must_raise_exception', 'previous_runs')
-    def on_change_to_evaluate(self):
+    @ModelView.button_change(*_FIELDS)
+    def refresh(self):
         if not self.to_evaluate:
             self.evaluation_result = ''
             return
@@ -220,6 +223,10 @@ class ModelInfo(ModelView):
             if self.must_raise_exception:
                 raise
             self.evaluation_result = 'ERROR: %s' % str(exc)
+
+    @fields.depends(*_FIELDS)
+    def on_change_to_evaluate(self):
+        self.refresh()
 
     def evaluate(self):
         context = {
