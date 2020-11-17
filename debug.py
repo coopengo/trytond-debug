@@ -299,8 +299,8 @@ class ModelInfo(ModelView):
             if isinstance(field.selection, str):
                 result['selection_method'] = field.selection
             else:
-                result['selection_values'] = dict([x
-                        for x in field.selection if x[0]])
+                result['selection_values'] = dict(
+                    {x[0]: str(x[1]) for x in field.selection if x[0]})
         for elem in ('required', 'readonly', 'invisible'):
             result['is_%s' % elem] = getattr(field, elem, False)
             result['state_%s' % elem] = repr(field.states.get(elem, {}))
