@@ -223,7 +223,7 @@ def tryton_syntax_analysis(pool, update):
         return
 
     from trytond.config import config
-    enabled = config.getboolean('debug', 'enable_syntax_analysis', False)
+    enabled = config.getboolean('debug', 'enable_syntax_analysis')
     if not enabled:
         return
 
