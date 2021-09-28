@@ -102,8 +102,7 @@ setattr(klass, method_name, %s)'''
 
     for meth_name in to_patch:
         logger.warning(
-            'Patching model \'%s\' method for profiling, not recommanded for '
-            'prod!' % meth_name)
+            'Patching model \'%s\' method for profiling' % meth_name)
         for klass in pool._pool[pool.database_name].get('model', {}).values():
             change_method_name_for_profiling(klass, meth_name)
 
@@ -133,8 +132,7 @@ def name_one2many_gets(pool, update):
 
     for meth_name in to_patch:
         logger.warning(
-            'Patching fields \'%s\' method for profiling, not recommanded '
-            'for prod!' % meth_name)
+            'Patching fields \'%s\' method for profiling' % meth_name)
         for klass in pool._pool[pool.database_name].get('model', {}).values():
             for fname, field in list(klass._fields.items()):
                 if not hasattr(field, meth_name):
@@ -210,11 +208,15 @@ def activate_auto_profile(pool, update):
                 return res
             return wrapped
 
-        for model, methods in config.items('auto_profile'):
-            logger.warning('Enabling auto-profile for %s' % model)
+        for key, data in config.items('auto_profile'):
+            model, methods = data.split(':')
+            model = model.strip()
 
             Model = pool._pool[pool.database_name].get('model').get(model)
             for method in methods.split(','):
+                method = method.strip()
+                logger.warning('Enabling auto-profile for %s -> %s' % (
+                        model, method))
                 method_obj = getattr(Model, method)
                 if is_class_or_dual_method(method_obj):
                     setattr(Model, method, auto_profile_cls(method_obj))

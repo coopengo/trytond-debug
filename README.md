@@ -169,8 +169,10 @@ A typical configuration will be :
 auto_profile_threshold=0.2
 
 [auto_profile]
-account.invoice=post
-account.payment=process,create
+# Using a "." in the key breaks environ based configuration, so the key will
+# actually be discarded
+invoice = account.invoice:post
+payment = account.payment:process,create
 ```
 
 ### Installation
