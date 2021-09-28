@@ -15,6 +15,8 @@ from trytond.pool import Pool
 from . import debug
 from . import ir
 
+logger = logging.getLogger('trytond:debug_module')
+
 
 def register():
     Pool.register(
@@ -48,7 +50,7 @@ def register():
             enable_debug_views,
             module='debug')
     except AttributeError:
-        logging.getLogger().warning('Post init hooks disabled')
+        logger.warning('Post init hooks disabled')
 
 
 def set_method_names_for_profiling(pool, update):
@@ -91,13 +93,17 @@ setattr(klass, method_name, %s)'''
             template % (patched_name, method_name, patched_name),
             {'klass': klass, 'method_name': method_name}, {})
 
-    meth_names = config.get('debug', 'methods')
-    if not meth_names:
+    to_patch = [
+        x.strip()
+        for x in (config.get('debug', 'methods') or '').split(',')
+        if x.strip()]
+    if not to_patch:
         return
-    for meth_name in meth_names.split(','):
-        logging.getLogger().warning(
-            'Patching %s for profiling, not recommanded for prod!'
-            % meth_name)
+
+    for meth_name in to_patch:
+        logger.warning(
+            'Patching model \'%s\' method for profiling, not recommanded for '
+            'prod!' % meth_name)
         for klass in pool._pool[pool.database_name].get('model', {}).values():
             change_method_name_for_profiling(klass, meth_name)
 
@@ -118,12 +124,15 @@ def name_one2many_gets(pool, update):
     from trytond.config import config
     from trytond.model import fields as tryton_fields
 
-    to_patch = (config.get('debug', 'fields_methods') or '').split(',')
+    to_patch = [
+        x.strip()
+        for x in (config.get('debug', 'fields_methods') or '').split(',')
+        if x.strip()]
     if not to_patch:
         return
 
     for meth_name in to_patch:
-        logging.getLogger().warning(
+        logger.warning(
             'Patching fields \'%s\' method for profiling, not recommanded '
             'for prod!' % meth_name)
         for klass in pool._pool[pool.database_name].get('model', {}).values():
@@ -162,7 +171,6 @@ def activate_auto_profile(pool, update):
         entries = config.getint('debug', 'auto_profile_entries') or 80
         filename = config.get('debug', 'auto_profile_filename') or None
         dirs = config.getboolean('debug', 'auto_profile_show_dirs') or False
-
 
         def is_class_or_dual_method(method):
             return hasattr(method, '_dualmethod') or (
@@ -336,13 +344,13 @@ def detect_api_changes(pool):
                     p_proto = super_data
             else:
                 continue
-            logging.getLogger().warning(
+            logger.warning(
                 'Incompatible method '
                 'description for method %s::%s' % (klass.__name__, mname))
             for module, arg_data, _ in data:
                 if (arg_data is not None and module.__name__ == klass.__name__
                         and 'trytond.pool' not in str(module)):
-                    logging.getLogger().warning('    %s : %s' % (
+                    logger.warning('    %s : %s' % (
                             m_name(module), str(arg_data[:-1])))
 
 
@@ -356,7 +364,7 @@ def enable_debug_views(pool, update):
     if not enabled:
         return
 
-    logging.getLogger().warning('Enabling debugging views')
+    logger.warning('Enabling debugging views')
 
     from trytond.model import ModelView, ModelSQL, fields
     from trytond.transaction import Transaction
