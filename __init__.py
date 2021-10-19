@@ -189,6 +189,8 @@ def activate_auto_profile(pool, update):
                     for line in my_stdout.getvalue().split('\n'):
                         logger.info(line)
                 return res
+            if hasattr(f, '__origin_function'):
+                wrapped.__origin_function = f.__origin_function
             return wrapped
 
         def auto_profile_cls(f):
@@ -206,6 +208,8 @@ def activate_auto_profile(pool, update):
                     for line in my_stdout.getvalue().split('\n'):
                         logger.info(line)
                 return res
+            if hasattr(f, '__origin_function'):
+                wrapped.__origin_function = f.__origin_function
             return wrapped
 
         for key, data in config.items('auto_profile'):
