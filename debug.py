@@ -331,21 +331,19 @@ class ModelInfo(ModelView):
             base_model = pool.get(name)
             infos[name]['fields'] = {}
             for fname in base_model._fields:
-                infos[name]['fields'][fname] = cls.raw_field_info(base_model,
-                    fname)
+                infos[name]['fields'][fname] = cls.raw_field_info(
+                    base_model, fname)
         return infos
 
     @classmethod
     def extract_mro(cls, model_class, model_name):
         result, methods, first_occurence = {}, {}, False
         for elem in dir(model_class):
-            if elem == 'on_change_with':
-                # Particular case
+            if elem.startswith('__') and elem not in (
+                    '__register__', '__setup__'):
                 continue
-            if elem.startswith('__') and elem not in ('__register__',
-                    '__setup__'):
-                continue
-            if not callable(getattr(model_class, elem)):
+            target = getattr(model_class, elem)
+            if not callable(target) or isinstance(target, type):
                 continue
             for ftemplate in METHOD_TEMPLATES:
                 if elem.startswith(ftemplate):
@@ -377,7 +375,7 @@ class ModelInfo(ModelView):
                 }
             if full_name[1] == 'modules':
                 new_line['module'] = full_name[2]
-            if str(line)[:-2].endswith(model_name):
+            if line.__name__ == model_name:
                 new_line['override'] = 1 if first_occurence else 0
                 new_line['initial'] = 0 if first_occurence else 1
                 new_line['base_name'] = model_name
@@ -389,29 +387,25 @@ class ModelInfo(ModelView):
                 cur_func = getattr(line, mname, None)
                 if not cur_func:
                     continue
-                key = getattr(cur_func, 'im_func', cur_func)
+                key = getattr(cur_func, '__code__', cur_func)
                 if key == mvalues['_function']:
                     continue
+                mvalues['_function'] = key
                 m_mro = dict(new_line)
                 m_mro['initial'] = 0 if len(mvalues['mro']) else 1
                 m_mro['override'] = 1 if len(mvalues['mro']) else 0
                 mvalues['mro']['% 3d' % (
                         len(mvalues['mro']) + 1)] = m_mro
-                mvalues['_function'] = key
+
                 if m_mro['initial']:
-                    try:
-                        raw = inspect.getargspec(cur_func)
-                    except:
-                        # Functions which are actually partials are not
-                        # inspectable
-                        continue
-                    mvalues['parameters'] = mname + inspect.formatargspec(*raw)
+                    mvalues['parameters'] = mname + str(
+                        inspect.signature(cur_func))
+
+                if hasattr(cur_func, '__code__'):
+                    m_mro['super'] = int('super' in cur_func.__code__.co_names)
         to_pop = []
         for mname, mvalues in methods.items():
             if not mvalues['mro']:
-                to_pop.append(mname)
-                continue
-            if not mvalues['mro']['% 3d' % len(mvalues['mro'])]['module']:
                 to_pop.append(mname)
                 continue
             mvalues.pop('_function')
@@ -461,8 +455,8 @@ class ModelInfo(ModelView):
                         'type': child.type or '',
                         'priority': child.priority or '',
                         'field_childs': child.field_childs or '',
-                        'functional_id': model_data_cache[(child.module,
-                                child.id)],
+                        'functional_id': model_data_cache[
+                            (child.module, child.id)],
                         'name': child.name or master_views[view_id]['name'],
                         })
 
@@ -471,8 +465,8 @@ class ModelInfo(ModelView):
                 return len(model_class._modules_list)
             return model_class._modules_list.index(x['module'])
 
-        master_views = {'% 3i' % idx: val
-            for idx, val in enumerate(
+        master_views = {
+            '% 3i' % idx: val for idx, val in enumerate(
                 sorted(master_views.values(), key=view_sort))}
 
         for view in master_views.values():
@@ -662,10 +656,10 @@ class DebugModelInstance(ModelSQL, ModelView):
             cls.refresh()
 
     def get_initial_frame(self, name):
-        return [x.id for x in self.mro if x.kind == 'initial'][0]
+        return ([x.id for x in self.mro if x.kind == 'initial'] or [None])[0]
 
     def get_initial_module(self, name):
-        return [x.module for x in self.mro if x.kind == 'initial'][0]
+        return ([x.module for x in self.mro if x.kind == 'initial'] or [None])[0]
 
     @classmethod
     @ModelView.button_action('debug.act_open_initial')
@@ -1039,7 +1033,7 @@ class DebugViewInstance(ModelSQL, ModelView):
     module = fields.Char('Module', readonly=True)
     kind = fields.Selection([('form', 'Form'), ('tree', 'Tree'),
             ('board', 'Board'), ('inherit', 'Inherit'), ('graph', 'Graph'),
-            ('calendar', 'Calendar')],
+            ('calendar', 'Calendar'), ('list-form', 'List / Form')],
         'Kind', readonly=True)
     priority = fields.Integer('Priority', readonly=True)
     order = fields.Integer('Order', readonly=True)
