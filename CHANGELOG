@@ -1,3 +1,5 @@
+* OTH#00000 Update tests to Tryton 6.4
+
 Version 1.8 - 2016-07-06
 * Use post_init hooks on pool
 * Add method patcher for per model method profiling
