@@ -212,11 +212,12 @@ def activate_auto_profile(pool, update):
                 wrapped.__origin_function = f.__origin_function
             return wrapped
 
-        for key, data in config.items('auto_profile'):
+        for _, data in config.items('auto_profile'):
             model, methods = data.split(':')
-            model = model.strip()
+            *pool_type, model = model.strip().split('/')
+            pool_type = (pool_type or ['model'])[0]
 
-            Model = pool._pool[pool.database_name].get('model').get(model)
+            Model = pool._pool[pool.database_name].get(pool_type).get(model)
             for method in methods.split(','):
                 method = method.strip()
                 logger.warning('Enabling auto-profile for %s -> %s' % (
