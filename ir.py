@@ -13,5 +13,7 @@ class User(metaclass=PoolMeta):
     @classmethod
     def get_login(cls, login, parameters):
         if config.getboolean('debug', 'ignore_passwords', default=False):
-            return cls.search([('login', '=', login)])[0].id
+            user = cls.search([('login', '=', login)])
+            if user:
+                return user[0].id
         return super().get_login(login, parameters)
