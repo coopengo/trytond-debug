@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- This file is part of Coog. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data>
+        <!-- Revision blame access -->
+        <record model="ir.action-res.group" id="act_debug_res_group">
+            <field name="action" ref="debug.act_model_debug"/>
+            <field name="group" ref="res.group_admin"/>
+        </record>
+    </data>
+</tryton>
