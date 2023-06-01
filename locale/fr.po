@@ -600,7 +600,7 @@ msgstr "Debug"
 
 msgctxt "model:ir.action,name:act_debug_model"
 msgid "Debug Model"
-msgstr "Modèles"
+msgstr "Débugger l'instance"
 
 msgctxt "model:ir.action,name:act_debug_model_field"
 msgid "Fields"
@@ -616,7 +616,7 @@ msgstr "Vues"
 
 msgctxt "model:ir.action,name:act_model_debug"
 msgid "Debug Model"
-msgstr "Modèles"
+msgstr "Débugger l'instance"
 
 msgctxt "model:ir.action,name:act_open_initial"
 msgid "Open Initial Frame"
