@@ -32,7 +32,6 @@ def register():
         debug.DebugOnChangeRelation,
         debug.DebugOnChangeWithRelation,
         ir.User,
-        ir.ActionKeyword,
         module='debug', type_='model')
 
     Pool.register(
