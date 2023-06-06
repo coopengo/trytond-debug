@@ -30,9 +30,7 @@ class ActionKeyword(metaclass=PoolMeta):
     def __register__(cls, module):
         super().__register__(module)
 
-        # return
         cursor = Transaction().connection.cursor()
-
         keyword_table = cls.__table__()
         wizard_table = Pool().get('ir.action.wizard').__table__()
 
