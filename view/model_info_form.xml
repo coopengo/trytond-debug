@@ -8,6 +8,8 @@ this repository contains the full copyright notices and license terms. -->
     <field name="filter_value"/>
     <label name="hide_functions"/>
     <field name="hide_functions"/>
+    <label name="filter_by_name"/>
+    <field name="filter_by_name"/>
     <field name="field_infos" colspan="4" readonly="1"/>
     <label name="id_to_calculate"/>
     <field name="id_to_calculate"/>
