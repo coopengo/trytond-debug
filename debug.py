@@ -122,7 +122,7 @@ class ModelInfo(ModelView):
     previous_runs = fields.Text('Previous runs', states={
             'invisible': ~Bool(Eval('id_to_calculate', False))},
         readonly=True, depends=['id_to_calculate'])
-    filter_by_name = fields.Char('Filter By Name')
+    name_filter = fields.Char('Name Filter')
 
     @classmethod
     def __setup__(cls):
@@ -194,30 +194,30 @@ class ModelInfo(ModelView):
         return 'name'
 
     @fields.depends('model_name', 'hide_functions', 'filter_value',
-        'field_infos', 'id_to_calculate', 'filter_by_name')
+        'field_infos', 'id_to_calculate', 'name_filter')
     def on_change_filter_value(self):
         self.recalculate_field_infos()
 
     @fields.depends('model_name', 'hide_functions', 'filter_value',
-        'field_infos', 'id_to_calculate', 'filter_by_name')
+        'field_infos', 'id_to_calculate', 'name_filter')
     def on_change_hide_functions(self):
         self.recalculate_field_infos()
 
     @fields.depends('model_name', 'hide_functions', 'filter_value',
-        'field_infos', 'id_to_calculate', 'filter_by_name')
+        'field_infos', 'id_to_calculate', 'name_filter')
     def on_change_model_name(self):
         self.to_evaluate = ''
         self.evaluation_result = ''
         self.recalculate_field_infos()
 
     @fields.depends('model_name', 'hide_functions', 'filter_value',
-        'field_infos', 'id_to_calculate', 'filter_by_name')
+        'field_infos', 'id_to_calculate', 'name_filter')
     def on_change_id_to_calculate(self):
         self.on_change_hide_functions()
 
     @fields.depends('model_name', 'hide_functions', 'filter_value',
-        'field_infos', 'id_to_calculate', 'filter_by_name')
-    def on_change_filter_by_name(self):
+        'field_infos', 'id_to_calculate', 'name_filter')
+    def on_change_name_filter(self):
         self.recalculate_field_infos()
 
     @ModelView.button_change(*_FIELDS)
@@ -256,7 +256,7 @@ class ModelInfo(ModelView):
 
     @ModelView.button_change('model_name', 'id_to_calculate', 'to_evaluate',
         'must_raise_exception', 'previous_runs', 'hide_functions',
-        'filter_value', 'field_infos', 'filter_by_name')
+        'filter_value', 'field_infos', 'name_filter')
     def follow_link(self):
         try:
             target = self.evaluate()
@@ -268,7 +268,7 @@ class ModelInfo(ModelView):
         self.model_name = target.__name__
         self.evaluation_result = ''
         self.to_evaluate = ''
-        self.filter_by_name = ''
+        self.name_filter = ''
         self.recalculate_field_infos()
 
     def recalculate_field_infos(self):
@@ -280,8 +280,8 @@ class ModelInfo(ModelView):
             for field_name, field in TargetModel._fields.items()]
         all_fields_infos = [
             info for info in all_fields_infos if info is not None]
-        if self.filter_by_name:
-            filter_name = self.filter_by_name.replace('_', '').replace(
+        if self.name_filter:
+            filter_name = self.name_filter.replace('_', '').replace(
                 ' ', '').lower()
             all_fields_infos = [
                 info for info in all_fields_infos
@@ -583,7 +583,7 @@ class DebugModel(Wizard):
             'id_to_calculate': Transaction().context.get('active_id', None),
             'hide_functions': True,
             'filter_value': 'name',
-            'filter_by_name': '',
+            'name_filter': '',
             }
 
 
