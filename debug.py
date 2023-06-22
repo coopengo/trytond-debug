@@ -149,11 +149,12 @@ class ModelInfo(ModelView):
         language = Transaction().language
         target = '%s,%s' % (model_name, field_name)
         ttype = 'field'
+        missing_translation_src = src + ' [Missing Translation]'
         try:
             return Translation.get_source(
-                target, ttype, language, src) or src
+                target, ttype, language, src) or missing_translation_src
         except ValueError:
-            return src
+            return missing_translation_src
 
     def get_field_info(self, field, field_name):
         pool = Pool()
@@ -281,12 +282,11 @@ class ModelInfo(ModelView):
         all_fields_infos = [
             info for info in all_fields_infos if info is not None]
         if self.name_filter:
-            filter_name = self.name_filter.replace('_', '').replace(
+            name_filter = self.name_filter.replace('_', '').replace(
                 ' ', '').lower()
             all_fields_infos = [
                 info for info in all_fields_infos
-                if filter_name in info.string.replace(' ', '').lower() or
-                filter_name in info.name.replace('_', '')]
+                if self.match_filter_name(name_filter, info)]
         self.field_infos = sorted(
             [x for x in all_fields_infos],
             key=lambda x: getattr(x, self.filter_value))
@@ -297,6 +297,11 @@ class ModelInfo(ModelView):
                             TargetModel(self.id_to_calculate), field.name))
                 except Exception as exc:
                     field.calculated_value = 'ERROR: %s' % str(exc)
+
+    @staticmethod
+    def match_filter_name(name_filter, info):
+        return (name_filter in info.string.replace(' ', '').lower() or
+            name_filter in info.name.replace('_', ''))
 
     @classmethod
     def raw_field_info(cls, base_model, field_name):
