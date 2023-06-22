@@ -454,8 +454,8 @@ msgctxt "field:ir.model.debug.model_info,evaluation_result:"
 msgid "Evaluation Result"
 msgstr "Résultat"
 
-msgctxt "field:ir.model.debug.model_info,filter_by_name:"
-msgid "Filter By Name"
+msgctxt "field:ir.model.debug.model_info,name_filter:"
+msgid "Name Filter"
 msgstr "Filtrer par"
 
 msgctxt "field:ir.model.debug.model_info,field_infos:"
