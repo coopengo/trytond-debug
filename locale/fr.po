@@ -454,13 +454,17 @@ msgctxt "field:ir.model.debug.model_info,evaluation_result:"
 msgid "Evaluation Result"
 msgstr "Résultat"
 
+msgctxt "field:ir.model.debug.model_info,name_filter:"
+msgid "Name Filter"
+msgstr "Filtrer par"
+
 msgctxt "field:ir.model.debug.model_info,field_infos:"
 msgid "Fields Infos"
 msgstr "Infos sur le champ"
 
 msgctxt "field:ir.model.debug.model_info,filter_value:"
 msgid "Filter Value"
-msgstr "Filtrer par"
+msgstr "Trier par"
 
 msgctxt "field:ir.model.debug.model_info,hide_functions:"
 msgid "Hide Functions"
